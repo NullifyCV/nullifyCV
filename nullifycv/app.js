@@ -43,10 +43,21 @@ const PII_PATTERNS=[
   // Dutch address format: streetname (ending in straat/laan/weg/etc) + number, sometimes + addition
   {key:'contact',type:'ADDRESS',label:'Street address',conf:'high',
    re:/\b[A-Z][a-zA-Z\u00C0-\u024F]+(?:straat|laan|weg|plein|dreef|singel|kade|dijk|gracht|hof|park|baan|hoek|berg|ring|wal)\s+\d{1,5}(?:\s*[A-Z](?:\s+\d{1,4}\s*[A-Z]{0,2})?)?\b/g},
+  // Graduation year — explicit graduation context only.
+  // Matches: "Class of 2020", "Graduated: 2020", and English month+year forms
+  // typical of US graduation conventions (May/June/December 2020).
+  // Dutch month names are deliberately NOT included here: in Dutch CVs, work
+  // history is commonly written as "januari 2020 - juni 2022", and recruiters
+  // need that timeline visible. Dutch graduation years tend to appear as
+  // standalone years which are no longer redacted by default.
   {key:'gradyear',type:'GRAD_YR',label:'Graduation year',conf:'high',
-   re:/\b(?:Class of |Graduated?:?\s*|(?:May|June|December|januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)\s+)(?:19|20)\d{2}\b/gi},
-  {key:'gradyear',type:'YEAR',label:'Year (age proxy)',conf:'med',
-   re:/\b(?:19[4-9]\d|200[0-9]|201[0-6])\b/g},
+   re:/\b(?:Class of |Graduated?:?\s*|(?:May|June|December)\s+)(?:19|20)\d{2}\b/g},
+  // NOTE: The previous "YEAR (age proxy)" rule that matched any naked year between
+  // 1940 and 2016 has been removed — it was incorrectly redacting employment-history
+  // dates (e.g. "Jan 2016 – Jan 2019" had its 2016 barred). Recruiters need the
+  // work timeline visible to evaluate candidates. Date-of-birth is still caught
+  // by the dedicated DOB patterns below, which require a labeled field or a
+  // day+month+year pattern that work-history dates don't share.
   {key:'urls',type:'LINKEDIN',label:'LinkedIn URL',conf:'high',
    re:/(?:linkedin\.com\/in\/)[A-Za-z0-9\-_%]+/gi},
   {key:'urls',type:'URL',label:'URL',conf:'high',
@@ -68,9 +79,17 @@ const PII_PATTERNS=[
   {key:'name',type:'NAME',label:'Full name (multi-line)',conf:'high',
    re:/^[A-Z][a-zA-Z\u00C0-\u024F\-]{2,30}\n[A-Z][a-zA-Z\u00C0-\u024F\-]{2,30}(?=\n|$)/g},
   {key:'contact',type:'DOB',label:'Date of birth',conf:'high',
-   re:/\b(?:geboortedatum|geboren op|date of birth|dob):?\s*\d{1,2}[\s\-\/]\d{1,2}[\s\-\/]\d{2,4}\b/gi},
+   re:/\b(?:geboortedatum|geboren op|date of birth|dob|geburtsdatum|geboren am|date de naissance|né\(?e?\)? le|fecha de nacimiento|nacido el|nascido em|data di nascita):?\s*\d{1,2}[\s\-\/]\d{1,2}[\s\-\/]\d{2,4}\b/gi},
   {key:'contact',type:'DOB',label:'Date of birth',conf:'med',
    re:/\b\d{1,2}\s+(?:januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)\s+\d{4}\b/gi},
+  // Nationality — labeled-field only, multi-language. Requires "Label: value"
+  // form with an explicit colon to avoid false positives on body-text mentions
+  // (e.g. "Nationality is not relevant to..."). Captures up to 60 chars of value
+  // on the same line. EEOC-mode redaction target: nationality is a protected
+  // characteristic. We deliberately do NOT try to detect free-text mentions
+  // ("I am a Dutch citizen") because the false-positive risk is too high.
+  {key:'contact',type:'NATIONALITY',label:'Nationality',conf:'high',
+   re:/\b(?:nationaliteit|nationality|citizenship|staatsangehörigkeit|nationalität|nationalité|nacionalidad|nacionalidade|nazionalità)\s*:\s*[^\n\r]{1,60}/gi},
   {key:'contact',type:'BSN',label:'BSN / National ID',conf:'high',
    re:/\b(?:BSN|burgerservicenummer):?\s*\d{8,9}\b/gi},
 ];
@@ -740,48 +759,102 @@ function findPIIPositions(items, piiValues){
   return positions;
 }
 
-/* ── Draw black redaction bars on PDF using pdf-lib ─────────────────────── */
+/* ── True PDF redaction by rasterization ─────────────────────────────────────
+   CRITICAL: drawing black rectangles with pdf-lib only COVERS text — the text
+   stays in the PDF's text layer and can be copy-pasted or extracted. That is a
+   security failure for a redaction tool.
+
+   This function instead RASTERIZES each page: it renders the page to a canvas,
+   draws the black redaction rectangles onto the canvas pixels, then rebuilds the
+   PDF with each page replaced by that flattened image. The original text layer
+   is destroyed entirely — there is no text anywhere in the output, so nothing
+   under a redaction bar can be recovered. The output is image-based (not
+   text-selectable), which is the correct, expected behaviour for a redacted
+   document.
+
+   `positions` and `imagePositions` are rectangles in PDF coordinate space
+   (bottom-left origin), matching pdf.js text-item transforms.                  */
 async function buildRedactedPDF(rawBytes, positions, imagePositions){
   if(typeof PDFLib==='undefined')
     throw new Error('pdf-lib not loaded — please reload the page.');
+  if(typeof pdfjsLib==='undefined')
+    throw new Error('pdf.js not loaded — please reload the page.');
 
-  const pdfDoc=await PDFLib.PDFDocument.load(rawBytes,{ignoreEncryption:true});
-  const pages=pdfDoc.getPages();
+  // RENDER_SCALE controls output sharpness. 2.0 keeps text crisp at the cost of
+  // a larger file. Lower it if files get too big; raise it for sharper output.
+  const RENDER_SCALE = 2.0;
 
-  // Text PII redactions
-  for(const pos of positions){
-    const page=pages[pos.pageNum-1];
-    if(!page)continue;
-    page.drawRectangle({
-      x:pos.x,
-      y:pos.y,
-      width:Math.max(pos.w,20),
-      height:Math.max(pos.h,10),
-      color:PDFLib.rgb(0,0,0),
-      opacity:1,
+  // Group redaction rectangles by page so we draw the right ones on each page.
+  const byPage = {};
+  for(const pos of (positions||[])){
+    (byPage[pos.pageNum] = byPage[pos.pageNum] || []).push({ ...pos, kind:'text' });
+  }
+  for(const img of (imagePositions||[])){
+    (byPage[img.pageNum] = byPage[img.pageNum] || []).push({ ...img, kind:'image' });
+  }
+
+  // pdf.js needs its own copy of the bytes (it transfers/detaches the buffer).
+  const srcDoc = await pdfjsLib.getDocument({ data: rawBytes.slice(0) }).promise;
+  const outDoc = await PDFLib.PDFDocument.create();
+
+  for(let p=1; p<=srcDoc.numPages; p++){
+    const page = await srcDoc.getPage(p);
+    const viewport = page.getViewport({ scale: RENDER_SCALE });
+
+    // Render the page to an offscreen canvas.
+    const canvas = document.createElement('canvas');
+    canvas.width  = Math.ceil(viewport.width);
+    canvas.height = Math.ceil(viewport.height);
+    const ctx = canvas.getContext('2d');
+    // White backdrop — some PDFs have transparent backgrounds.
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    await page.render({ canvasContext: ctx, viewport }).promise;
+
+    // Draw redaction rectangles directly onto the canvas pixels.
+    // positions are PDF-space (bottom-left origin); canvas is top-left origin.
+    const pageRects = byPage[p] || [];
+    const pageHeightPdf = page.getViewport({ scale: 1 }).height;
+    ctx.fillStyle = '#000000';
+    for(const r of pageRects){
+      const pad = 2; // cover anti-aliased glyph edges
+      const rw = (r.kind === 'text' ? Math.max(r.w, 20) : r.w) + pad*2;
+      const rh = (r.kind === 'text' ? Math.max(r.h, 10) : r.h) + pad*2;
+      const pdfX = r.x - pad;
+      const pdfY = r.y - pad;
+      // Flip Y: PDF bottom-left → canvas top-left. Then scale into canvas pixels.
+      const cx = pdfX * RENDER_SCALE;
+      const cy = (pageHeightPdf - pdfY - rh) * RENDER_SCALE;
+      ctx.fillRect(cx, cy, rw * RENDER_SCALE, rh * RENDER_SCALE);
+    }
+
+    // Flatten the canvas to a JPEG and embed it as the entire page.
+    // JPEG at 0.92 keeps text readable while controlling file size.
+    const jpegDataUrl = canvas.toDataURL('image/jpeg', 0.92);
+    const jpegBytes = _dataUrlToBytes(jpegDataUrl);
+    const embedded = await outDoc.embedJpg(jpegBytes);
+
+    // New page sized to the ORIGINAL page dimensions (scale 1), so the output
+    // PDF has correct physical page size; the image just fills it.
+    const baseViewport = page.getViewport({ scale: 1 });
+    const outPage = outDoc.addPage([baseViewport.width, baseViewport.height]);
+    outPage.drawImage(embedded, {
+      x: 0, y: 0,
+      width: baseViewport.width,
+      height: baseViewport.height,
     });
   }
 
-  // Image redactions (photos, logos, embedded figures)
-  if (imagePositions && imagePositions.length) {
-    for (const img of imagePositions) {
-      const page = pages[img.pageNum - 1];
-      if (!page) continue;
-      // Add a small padding around the image so antialiased edges are fully covered
-      const pad = 2;
-      page.drawRectangle({
-        x: img.x - pad,
-        y: img.y - pad,
-        width: img.w + pad * 2,
-        height: img.h + pad * 2,
-        color: PDFLib.rgb(0, 0, 0),
-        opacity: 1,
-      });
-    }
-  }
+  return await outDoc.save();
+}
 
-  const pdfBytes=await pdfDoc.save();
-  return pdfBytes;
+/* Convert a data: URL to a Uint8Array of its decoded bytes. */
+function _dataUrlToBytes(dataUrl){
+  const base64 = dataUrl.split(',')[1];
+  const bin = atob(base64);
+  const bytes = new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) bytes[i] = bin.charCodeAt(i);
+  return bytes;
 }
 
 /* ── DOCX text extraction via mammoth ────────────────────────────────────── */
