@@ -43,7 +43,7 @@ All processing happens in the browser using Web APIs. The tool loads cv files di
 - **Week Pass** — $4.99 one-time, tax inclusive (7 days unlimited, for job seekers)
 - **Pro Monthly** — $49/month + tax (batch up to 200 files, saved profiles, GDPR audit logs)
 - **Pro Annual** — $490/year + tax (same as Pro Monthly, 2 months free)
-- **Team** — $149/month + tax (multi-user, team management, priority support)
+- **Team & Enterprise** — custom pricing, contact support@nullifycv.com (volume licensing, invoiced billing, priority support)
 
 ## Who it is for
 

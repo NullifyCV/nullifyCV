@@ -111,7 +111,7 @@
     .bottom-cta p{font-size:13px;color:var(--ink3);margin-bottom:20px}
     .bottom-cta a{display:inline-block;background:var(--green-dark);color:white;padding:12px 28px;border-radius:var(--r);font-size:13px;font-weight:700;text-decoration:none}
     .disclaimer{font-size:11px;color:var(--ink3);text-align:center;margin-top:16px;line-height:1.6}
-    @media(max-width:680px){.passes-grid,.pro-grid,.trust-row{grid-template-columns:1fr}.pro-btns{grid-template-columns:1fr}.pro-btn.single{grid-column:span 1}}
+    @media(max-width:680px){.pro-grid,.trust-row{grid-template-columns:1fr}.pro-btns{grid-template-columns:1fr}.pro-btn.single{grid-column:span 1}.passes-grid{flex-direction:column;align-items:center}}
   </style>
   <script src="https://js-de.sentry-cdn.com/263c778b9462a7bb5fa848cf4ed54d4a.min.js" crossorigin="anonymous"></script>
 </head>
@@ -251,21 +251,20 @@
       </div>
 
       <div class="pro-card">
-        <div class="pro-name">Team</div>
-        <div class="pro-price"><sup>$</sup>149</div>
-        <div class="pro-period">per month</div>
-        <div class="pro-tax">+ applicable tax · Cancel anytime</div>
-        <div class="pro-desc">For HR departments. Everything in Pro plus shared profiles and a team audit dashboard.</div>
+        <div class="pro-name">Team &amp; Enterprise</div>
+        <div class="pro-price" style="font-size:32px;letter-spacing:-1px;">Let's talk</div>
+        <div class="pro-period">Custom pricing</div>
+        <div class="pro-tax">Volume licensing · Invoiced billing</div>
+        <div class="pro-desc">For HR departments and recruitment agencies processing CVs at scale. We'll set up what your team needs.</div>
         <div class="pro-div"></div>
         <ul class="pro-feats">
           <li><span class="pfy">✓</span>Everything in Pro</li>
-          <li><span class="pfy">✓</span>5 team seats</li>
-          <li><span class="pfy">✓</span>Shared redaction profile library</li>
-          <li><span class="pfy">✓</span>Team audit dashboard</li>
-          <li><span class="pfy">✓</span>ATS-compatible export formats</li>
+          <li><span class="pfy">✓</span>Volume licensing for your team</li>
+          <li><span class="pfy">✓</span>Higher batch limits</li>
+          <li><span class="pfy">✓</span>Invoiced billing for procurement</li>
           <li><span class="pfy">✓</span>Priority support</li>
         </ul>
-        <a href="https://buy.stripe.com/00weVe0aC4OB8Mc54918c09" class="pro-btn single">Get Team — $149/mo →</a>
+        <a href="mailto:support@nullifycv.com?subject=Team%20%26%20Enterprise%20enquiry" class="pro-btn single">Contact us →</a>
       </div>
     </div>
     <div class="pro-tax-note">Billed in USD · + applicable tax · Cancel anytime via Stripe customer portal</div>
@@ -280,7 +279,7 @@
 
   <div class="trust-row">
     <div class="trust-card"><div class="trust-icon">🔒</div><h3>Files never leave your device</h3><p>All processing happens in your browser on every plan. Zero bytes transmitted — ever.</p></div>
-    <div class="trust-card"><div class="trust-icon">↩️</div><h3>Cancel anytime</h3><p>Pro and Team subscriptions cancel instantly via Stripe. One-time passes never auto-renew.</p></div>
+    <div class="trust-card"><div class="trust-icon">↩️</div><h3>Cancel anytime</h3><p>Pro subscriptions cancel instantly via Stripe. One-time passes never auto-renew.</p></div>
     <div class="trust-card"><div class="trust-icon">🔓</div><h3>Open source</h3><p>Every line of code that handles your documents is public on GitHub. Audit it yourself.</p></div>
   </div>
 
@@ -301,13 +300,13 @@
         <tr><td>PDF + DOCX support</td><td><span class="cy">✓</span></td><td><span class="cy">✓</span></td><td><span class="cy">✓</span></td><td><span class="cy">✓</span></td></tr>
         <tr><td>All redaction modes</td><td><span class="cp">4 modes</span></td><td><span class="cy">✓</span></td><td><span class="cy">✓</span></td><td><span class="cy">✓</span></td></tr>
         <tr><td>All 8 redaction targets</td><td><span class="cn">—</span></td><td><span class="cy">✓</span></td><td><span class="cy">✓</span></td><td><span class="cy">✓</span></td></tr>
-        <tr><td>Batch processing</td><td><span class="cn">—</span></td><td><span class="cn">—</span></td><td><span class="cp">200 files</span></td><td><span class="cp">200 files</span></td></tr>
+        <tr><td>Batch processing</td><td><span class="cn">—</span></td><td><span class="cn">—</span></td><td><span class="cp">200 files</span></td><td><span class="cp">Higher limits</span></td></tr>
         <tr><td>Saved redaction profiles</td><td><span class="cn">—</span></td><td><span class="cn">—</span></td><td><span class="cy">✓</span></td><td><span class="cy">✓</span></td></tr>
         <tr><td>GDPR annotated audit log</td><td><span class="cp">Basic</span></td><td><span class="cp">Basic</span></td><td><span class="cp">Full + regulatory</span></td><td><span class="cp">Full + regulatory</span></td></tr>
         <tr><td>DPO compliance report</td><td><span class="cn">—</span></td><td><span class="cn">—</span></td><td><span class="cy">✓</span></td><td><span class="cy">✓</span></td></tr>
-        <tr><td>Team seats</td><td><span class="cn">—</span></td><td><span class="cn">—</span></td><td><span class="cp">1 seat</span></td><td><span class="cp">5 seats</span></td></tr>
-        <tr><td>Shared profile library</td><td><span class="cn">—</span></td><td><span class="cn">—</span></td><td><span class="cn">—</span></td><td><span class="cy">✓</span></td></tr>
-        <tr><td>Team audit dashboard</td><td><span class="cn">—</span></td><td><span class="cn">—</span></td><td><span class="cn">—</span></td><td><span class="cy">✓</span></td></tr>
+        <tr><td>Volume licensing</td><td><span class="cn">—</span></td><td><span class="cn">—</span></td><td><span class="cn">—</span></td><td><span class="cy">✓</span></td></tr>
+        <tr><td>Invoiced billing</td><td><span class="cn">—</span></td><td><span class="cn">—</span></td><td><span class="cn">—</span></td><td><span class="cy">✓</span></td></tr>
+        <tr><td>Priority support</td><td><span class="cn">—</span></td><td><span class="cn">—</span></td><td><span class="cp">Standard</span></td><td><span class="cy">✓</span></td></tr>
         <tr><td>100% client-side</td><td><span class="cy">✓</span></td><td><span class="cy">✓</span></td><td><span class="cy">✓</span></td><td><span class="cy">✓</span></td></tr>
       </tbody>
     </table>
@@ -318,8 +317,9 @@
     <h2>Frequently asked questions</h2>
     <div class="faq-item"><button class="faq-q" onclick="toggleFAQ(this)">Do files get uploaded when I pay?<span class="faq-arrow">↓</span></button><div class="faq-a">No — on every plan all file processing happens in your browser. Paying unlocks features but never changes how your files are handled. Zero bytes of document data are transmitted to any server on any plan.</div></div>
     <div class="faq-item"><button class="faq-q" onclick="toggleFAQ(this)">How does the Week Pass work?<span class="faq-arrow">↓</span></button><div class="faq-a">The Week Pass ($4.99) gives you unlimited file redactions for 7 days from the moment of purchase. It's a one-time payment — nothing auto-renews, no card is stored, no account is created. After 7 days the pass simply ends and you can buy another if you need it.</div></div>
-    <div class="faq-item"><button class="faq-q" onclick="toggleFAQ(this)">Can I cancel Pro or Team anytime?<span class="faq-arrow">↓</span></button><div class="faq-a">Yes — subscriptions cancel instantly from your Stripe customer portal. No lock-in, no fees. You keep access until the end of your current billing period.</div></div>
-    <div class="faq-item"><button class="faq-q" onclick="toggleFAQ(this)">How does batch processing work?<span class="faq-arrow">↓</span></button><div class="faq-a">Pro and Team users drop up to 200 PDF or DOCX files into the batch queue. The tool processes them in your browser using your saved redaction profile and lets you download all redacted files as a ZIP with a combined audit log.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFAQ(this)">Can I cancel Pro anytime?<span class="faq-arrow">↓</span></button><div class="faq-a">Yes — your Pro subscription cancels instantly from your Stripe customer portal. No lock-in, no fees. You keep access until the end of your current billing period.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFAQ(this)">How does batch processing work?<span class="faq-arrow">↓</span></button><div class="faq-a">Pro users drop up to 200 PDF or DOCX files into the batch queue. The tool processes them in your browser using your saved redaction profile and lets you download all redacted files as a ZIP with a combined audit log. Teams needing higher limits can get in touch.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFAQ(this)">Do you collect my email address?<span class="faq-arrow">↓</span></button><div class="faq-a">Only at checkout — and only because Stripe (the payment processor) requires it to send you a receipt and process the payment. We see the email through our Stripe dashboard and use it only to deliver your licence and reply if you contact support. We will never use it for marketing, newsletters, or promotional emails. We do not export it to any other tool. See the <a href="/privacy.html">privacy policy</a> for full detail.</div></div>
     <div class="faq-item"><button class="faq-q" onclick="toggleFAQ(this)">Do you offer invoices for business purchases?<span class="faq-arrow">↓</span></button><div class="faq-a">Yes — Stripe automatically generates invoices for all payments. After checkout you'll receive a receipt email with a downloadable invoice suitable for expense reporting or VAT reclaim.</div></div>
   </div>
 

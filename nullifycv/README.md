@@ -233,7 +233,7 @@ nullifycv/
 - pdf-lib black-bar redaction preserving original layout
 - **Embedded photo detection and redaction in PDFs** (May 2026)
 - Dutch CV support — 06 numbers, postcodes, cities, BSN
-- Four-tier pricing (free → $4.99 Week Pass → $49 Pro → $149 Team)
+- Four-tier pricing (free → $4.99 Week Pass → $49 Pro → Team & Enterprise on request)
 - Stripe payment integration with localStorage licence activation
 - 10 international SEO landing pages
 - Globe language switcher across all pages
@@ -247,7 +247,6 @@ nullifycv/
 - Batch processing — up to 200 files at once with combined audit ZIP
 - Saved redaction profiles (Pro tier)
 - DPO compliance report as PDF export (Pro tier)
-- Team dashboard with shared profiles (Team tier)
 - DOCX-to-DOCX output preserving original formatting
 - Scanned PDF support via in-browser OCR (Tesseract.js)
 - Browser extension for direct CV redaction from any web page
