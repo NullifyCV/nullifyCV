@@ -136,44 +136,76 @@
 </footer>
 
 <script>
-const PLAN_CONFIG = {
-  week:   { name: 'Week Pass',          tier: 'seeker', days: 7,   desc: 'Unlimited files for 7 days. All modes, all targets.' },
-  pro:    { name: 'Pro Monthly',        tier: 'pro',    days: 30,  desc: 'Batch processing (200 files), saved profiles, GDPR audit log.' },
-  proyr:  { name: 'Pro Annual',         tier: 'pro',    days: 365, desc: 'Batch processing (200 files), saved profiles, GDPR audit log. 12 months.' },
-  team:   { name: 'Team & Enterprise',  tier: 'team',   days: 30,  desc: 'Everything in Pro, with volume licensing and priority support arranged for your team.' },
+const PLAN_DISPLAY = {
+  week:   { name: 'Week Pass',          desc: 'Unlimited files for 7 days. All modes, all targets.',                                              days: 7   },
+  pro:    { name: 'Pro Monthly',        desc: 'Batch processing (200 files), saved profiles, GDPR audit log.',                                    days: 30  },
+  proyr:  { name: 'Pro Annual',         desc: 'Batch processing (200 files), saved profiles, GDPR audit log. 12 months.',                          days: 365 },
+  team:   { name: 'Team & Enterprise',  desc: 'Everything in Pro, with volume licensing and priority support arranged for your team.',            days: 30  },
 };
 
-const params  = new URLSearchParams(window.location.search);
-const planKey = params.get('plan') || 'week';
-const plan    = PLAN_CONFIG[planKey] || PLAN_CONFIG.week;
+const params    = new URLSearchParams(window.location.search);
+const planKey   = params.get('plan') || 'week';
+const sessionId = params.get('session_id');  // Stripe appends this when success_url uses {CHECKOUT_SESSION_ID}
+const display   = PLAN_DISPLAY[planKey] || PLAN_DISPLAY.week;
 
-// Calculate expiry
-const expiry  = Date.now() + (plan.days * 24 * 60 * 60 * 1000);
-const expDate = new Date(expiry).toLocaleDateString('en-US', {
-  weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
-});
+// Show plan name immediately so the page doesn't look broken while the network call runs
+document.getElementById('plan-name').textContent = display.name;
+document.getElementById('plan-desc').textContent = display.desc;
+document.getElementById('plan-expiry').textContent = 'Activating…';
+document.getElementById('go-btn').href = '#';
+document.getElementById('go-btn').textContent = 'Activating your licence…';
 
-// Display plan info
-document.getElementById('plan-name').textContent   = plan.name;
-document.getElementById('plan-desc').textContent   = plan.desc;
-document.getElementById('plan-expiry').textContent = '✓ Active until ' + expDate;
+(async function activateLicence() {
+  // If Stripe didn't append a session_id we cannot verify the purchase. Show
+  // a clear error path rather than silently issuing a forged licence.
+  if (!sessionId) {
+    document.getElementById('plan-expiry').textContent = '⚠ Missing session ID — please email support';
+    document.getElementById('go-btn').textContent = 'Contact support@nullifycv.com';
+    document.getElementById('go-btn').href = 'mailto:support@nullifycv.com?subject=Activation%20issue%20-%20no%20session%20id';
+    return;
+  }
 
-// Save to localStorage immediately
-const licenceData = {
-  tier:    plan.tier,
-  plan:    planKey,
-  issued:  Date.now(),
-  expires: expiry,
-  days:    plan.days
-};
-try {
-  localStorage.setItem('ncv_licence', JSON.stringify(licenceData));
-} catch(e) {
-  console.warn('[NullifyCV] Could not save to localStorage:', e);
-}
+  try {
+    const r = await fetch('/api/issue-licence', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ session_id: sessionId, plan: planKey }),
+    });
 
-// Go button
-document.getElementById('go-btn').href = '/?activated=' + planKey;
+    if (!r.ok) {
+      const err = await r.json().catch(() => ({}));
+      console.warn('[NullifyCV] /api/issue-licence failed:', r.status, err);
+      document.getElementById('plan-expiry').textContent = '⚠ Could not activate — please email support';
+      document.getElementById('go-btn').textContent = 'Contact support@nullifycv.com';
+      document.getElementById('go-btn').href = 'mailto:support@nullifycv.com?subject=Activation%20issue&body=Stripe%20session%3A%20' + encodeURIComponent(sessionId);
+      return;
+    }
+
+    const { payload, signature } = await r.json();
+
+    // Save the SIGNED licence — the client cannot forge a valid signature
+    try {
+      localStorage.setItem('ncv_licence_v2', JSON.stringify({ payload, signature }));
+      // Clear any old (unsigned) licence so the validation path doesn't get confused
+      localStorage.removeItem('ncv_licence');
+    } catch (e) {
+      console.warn('[NullifyCV] localStorage write failed:', e);
+    }
+
+    // Update UI to reflect successful activation
+    const expDate = new Date(payload.expires).toLocaleDateString('en-US', {
+      weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
+    });
+    document.getElementById('plan-expiry').textContent = '✓ Active until ' + expDate;
+    document.getElementById('go-btn').textContent = 'Start using NullifyCV →';
+    document.getElementById('go-btn').href = '/?activated=' + planKey;
+  } catch (e) {
+    console.error('[NullifyCV] Activation error:', e);
+    document.getElementById('plan-expiry').textContent = '⚠ Network error — please refresh or email support';
+    document.getElementById('go-btn').textContent = 'Contact support@nullifycv.com';
+    document.getElementById('go-btn').href = 'mailto:support@nullifycv.com?subject=Activation%20issue&body=Stripe%20session%3A%20' + encodeURIComponent(sessionId);
+  }
+})();
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
 

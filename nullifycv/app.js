@@ -1401,44 +1401,74 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeUpgrade();
 });
 
-/* ── NullifyCV Licence Key System ─────────────────────────────────────────── */
-const LICENCE_SALT = 'nullifycv-2026-licence-v1';
-const PLAN_DAYS = { single:7, week:7, month:30, pro:30, proyr:365, team:30 };
-const PLAN_TIERS = { single:'seeker', week:'seeker', month:'seeker', pro:'pro', proyr:'pro', team:'team' };
+/* ── NullifyCV Licence Key System ─────────────────────────────────────────────
+   Move 2 (June 2026): localStorage entries are no longer trusted. The licence
+   stored under 'ncv_licence_v2' is a {payload, signature} object issued by
+   /api/issue-licence after Stripe verifies the purchase. On every page load,
+   we send the stored licence to /api/validate-licence, which recomputes the
+   HMAC-SHA256 signature server-side and rejects forgeries.
+
+   Legacy 'ncv_licence' entries (pre-Move-2, unsigned) are ignored and removed.
+   There are no production-paying customers to migrate.
+   ─────────────────────────────────────────────────────────────────────────── */
 
 let activeLicence = null;
 
-/* ── Validate a key against a session ID ── */
-async function validateKey(inputKey, planCode) {
-  // Check localStorage first
+/* ── Load and validate stored licence on page load ────────────────────────── */
+async function loadStoredLicence() {
+  // Clean up any legacy unsigned licence — it cannot be trusted under the new model
   try {
-    const stored = JSON.parse(localStorage.getItem('ncv_licence') || 'null');
-    if (stored && stored.key === inputKey && stored.expires > Date.now()) {
-      return { valid: true, tier: stored.tier, plan: stored.plan, expires: stored.expires };
-    }
-  } catch(e) {}
-
-  // Re-derive: we can't validate without a session ID server-side
-  // So we trust the key format and expiry stored in localStorage
-  // If not in localStorage, ask user to visit success page
-  return { valid: false };
-}
-
-/* ── Load licence from localStorage on page load ── */
-function loadStoredLicence() {
-  try {
-    const stored = JSON.parse(localStorage.getItem('ncv_licence') || 'null');
-    if (stored && stored.expires > Date.now()) {
-      activeLicence = stored;
-      applyLicence(stored.tier);
-      showLicenceStatus(stored);
-      return true;
-    } else if (stored) {
-      // Expired
+    if (localStorage.getItem('ncv_licence')) {
       localStorage.removeItem('ncv_licence');
     }
-  } catch(e) {}
-  return false;
+  } catch (e) {}
+
+  // Read the signed licence
+  let stored;
+  try {
+    stored = JSON.parse(localStorage.getItem('ncv_licence_v2') || 'null');
+  } catch (e) {
+    return false;
+  }
+  if (!stored || !stored.payload || !stored.signature) return false;
+
+  // Fast local expiry check before hitting the server. This is purely a UX
+  // optimisation — we still validate with the server below, which is authoritative.
+  if (typeof stored.payload.expires === 'number' && stored.payload.expires <= Date.now()) {
+    try { localStorage.removeItem('ncv_licence_v2'); } catch (e) {}
+    return false;
+  }
+
+  // Validate signature server-side. A forged localStorage entry will fail here.
+  try {
+    const r = await fetch('/api/validate-licence', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ payload: stored.payload, signature: stored.signature }),
+    });
+    const result = await r.json();
+
+    if (r.ok && result.valid === true) {
+      activeLicence = {
+        tier: result.tier,
+        plan: result.plan,
+        expires: result.expires,
+      };
+      applyLicence(result.tier);
+      showLicenceStatus(activeLicence);
+      return true;
+    }
+
+    // Invalid signature OR expired OR malformed — drop it so a stale entry
+    // can't keep failing validation on every load.
+    try { localStorage.removeItem('ncv_licence_v2'); } catch (e) {}
+    return false;
+  } catch (e) {
+    // Network error talking to /api/validate-licence. We deliberately fail
+    // CLOSED here — if we can't verify, we don't unlock. The user can refresh.
+    console.warn('[NullifyCV] Licence validation network error:', e);
+    return false;
+  }
 }
 
 /* ── Apply licence — unlock features ── */
@@ -1483,52 +1513,19 @@ function showLicenceStatus(licence) {
 
 /* ── Activate key from input field ── */
 async function activateLicenceKey() {
-  const input = document.getElementById('licence-input');
-  const btn   = document.getElementById('licence-activate-btn');
-  const err   = document.getElementById('licence-err');
-  const key   = (input.value || '').trim().toUpperCase();
-
-  if (!key) { err.textContent = 'Please enter your licence key.'; return; }
-
-  btn.textContent = 'Validating...';
-  btn.disabled = true;
-  err.textContent = '';
-
-  // Check format: XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX
-  const keyFormat = /^[A-F0-9]{8}-[A-F0-9]{8}-[A-F0-9]{8}-[A-F0-9]{8}$/;
-  if (!keyFormat.test(key)) {
-    err.textContent = 'Invalid key format. Keys look like: ABCD1234-EFGH5678-IJKL9012-MNOP3456';
-    btn.textContent = 'Activate';
-    btn.disabled = false;
-    return;
+  // Under Move 2 (June 2026), licences are signed by the server and issued only
+  // after a successful Stripe checkout. There is no way for a user to manually
+  // type in a key and gain access — doing so would be a forgery vector. If a
+  // user lost their localStorage (e.g. switched browsers), the recovery path
+  // is to contact support and have us re-issue. Move 3 will automate this via
+  // an email lookup against Stripe; for now, support is the channel.
+  const err = document.getElementById('licence-err');
+  if (err) {
+    err.innerHTML = 'Manual key entry has been replaced with a more secure system. ' +
+                    'If you lost access to your purchase, please email ' +
+                    '<a href="mailto:support@nullifycv.com?subject=Restore%20access" style="color:inherit;text-decoration:underline;">support@nullifycv.com</a> ' +
+                    'with your Stripe receipt — we will restore your access within 24 hours.';
   }
-
-  // Check if this key matches one already stored in localStorage
-  // (auto-saved from success page) — if so, use that data including correct tier/expiry
-  let licenceData;
-  try {
-    const stored = JSON.parse(localStorage.getItem('ncv_licence') || 'null');
-    if (stored && stored.key === key && stored.expires > Date.now()) {
-      licenceData = stored;
-    }
-  } catch(e) {}
-
-  // If not found in storage, create a new entry with default 30 day seeker tier
-  if (!licenceData) {
-    const expiry = Date.now() + (30 * 24 * 60 * 60 * 1000);
-    licenceData = { key, tier: 'seeker', plan: 'manual', issued: Date.now(), expires: expiry, days: 30 };
-  }
-
-  localStorage.setItem('ncv_licence', JSON.stringify(licenceData));
-  activeLicence = licenceData;
-  applyLicence(licenceData.tier);
-  showLicenceStatus(licenceData);
-
-  btn.textContent = '✓ Activated!';
-  setTimeout(() => {
-    btn.textContent = 'Activate';
-    btn.disabled = false;
-  }, 2000);
 }
 
 /* ── Check URL for auto-activation from success page ── */
@@ -1536,9 +1533,11 @@ function checkURLLicence() {
   const params    = new URLSearchParams(window.location.search);
   const activated = params.get('activated');
   if (activated) {
-    const loaded = loadStoredLicence();
+    // Fire and forget — loadStoredLicence is async, but UI updates happen
+    // inside applyLicence/showLicenceStatus once validation completes.
+    loadStoredLicence();
     window.history.replaceState({}, '', '/');
-    return loaded;
+    return true;
   }
   return false;
 }
