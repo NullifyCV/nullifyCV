@@ -5,19 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blind Hiring & HR Privacy Glossary — NullifyCV</title>
   <meta name="description" content="Definitions of key terms in blind hiring, CV redaction, GDPR compliance, and HR privacy. A reference guide for recruiters, HR teams, and DPOs.">
-  <link rel="canonical" href="https://nullifycv.com/glossary.html">
+  <link rel="canonical" href="https://www.nullifycv.com/glossary.html">
 
   <meta property="og:title" content="Glossary — NullifyCV">
   <meta property="og:description" content="Definitions of blind hiring, GDPR, EEOC, PII, and other privacy and compliance terms used in recruitment.">
-  <meta property="og:url" content="https://nullifycv.com/glossary.html">
+  <meta property="og:url" content="https://www.nullifycv.com/glossary.html">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "DefinedTermSet",
     "name": "Blind Hiring & HR Privacy Glossary",
     "description": "Definitions of key terms in blind hiring, CV redaction, GDPR compliance, and HR privacy.",
-    "url": "https://nullifycv.com/glossary.html",
-    "publisher": { "@type": "Organization", "name": "NullifyCV", "url": "https://nullifycv.com" },
+    "url": "https://www.nullifycv.com/glossary.html",
+    "publisher": { "@type": "Organization", "name": "NullifyCV", "url": "https://www.nullifycv.com" },
     "hasDefinedTerm": [
       { "@type": "DefinedTerm", "name": "Blind Hiring", "description": "A recruitment process in which personally identifying information is removed from candidate applications before they reach evaluators, so decisions are based on skills and experience rather than demographic characteristics." },
       { "@type": "DefinedTerm", "name": "CV Redaction", "description": "The process of removing or obscuring personally identifiable information from a curriculum vitae before it is shared internally or externally." },
@@ -188,7 +188,7 @@
   <span aria-hidden="true">·</span>
   <a href="/terms.html">Terms</a>
   <span aria-hidden="true">·</span>
-  <small>No uploads · No storage · No tracking · GDPR-consistent · Not legal advice</small>
+  <small>Local CV processing · Analytics and error reporting disclosed · Supports data minimisation · Not legal advice</small>
 </footer>
 
 <script>
@@ -205,14 +205,14 @@ const TERMS = [
     term: 'Anonymisation',
     also: 'Also: De-identification, Pseudonymisation (different — see below)',
     def: 'The process of removing or altering personal data so that the individual cannot be identified, directly or indirectly. Under GDPR, truly anonymised data is no longer considered personal data and falls outside the regulation\'s scope. Anonymisation is irreversible — if the data can be re-identified, it is pseudonymisation, not anonymisation.',
-    context: 'CV anonymisation for blind hiring removes direct identifiers (name, contact details) and indirect identifiers (graduation year, school name). The resulting document cannot be used to identify the candidate without additional information.',
+    context: "Removing direct identifiers does not guarantee anonymity. Work history and other remaining information may still identify a candidate.",
     tags: ['gdpr', 'privacy'],
     related: [{ text: 'Pseudonymisation', href: '#pseudonymisation' }, { text: 'PII', href: '#pii' }]
   },
   {
     term: 'Audit Log',
-    def: 'A chronological record documenting actions taken on data — in the context of CV redaction, an audit log records which PII items were detected, which were removed, the confidence level of each detection, the redaction mode applied, and the timestamp. Audit logs support GDPR Article 30 Records of Processing Activities and EEOC blind review documentation.',
-    context: 'NullifyCV generates a downloadable JSON audit log for every file processed, including batch runs. This log can be attached to your Records of Processing Activities as evidence of a systematic data minimisation workflow.',
+    def: 'A chronological activity record. In CV redaction, a log can record which items the application detected and removed, confidence values, the selected mode and a timestamp.',
+    context: 'NullifyCV generates an application-reported JSON workflow log. It can support internal documentation, but it is not an independent compliance certificate, bias audit or complete network measurement.',
     tags: ['gdpr', 'eeoc'],
     related: [{ text: 'Records of Processing Activities', href: '#records-of-processing-activities' }, { text: 'Data Minimisation', href: '#data-minimisation' }]
   },
@@ -240,8 +240,8 @@ const TERMS = [
   },
   {
     term: 'Client-Side Processing',
-    def: 'Data processing that occurs entirely within the user\'s browser, without any data being sent to a remote server. Client-side processing means the service provider never receives or handles the user\'s data. This is architecturally distinct from server-side processing, where files are uploaded to a vendor\'s infrastructure.',
-    context: 'NullifyCV processes all CV files client-side using pdf.js and pdf-lib. This means NullifyCV does not act as a data processor under GDPR — no personal data is transmitted to NullifyCV at any point.',
+    def: 'Data processing performed by code running in the user\'s browser. A service can process document contents locally while still using online services for hosting, analytics, errors, payments or licences.',
+    context: "CV processing runs in the browser. Payments, licence validation, analytics and error reporting use online services.",
     tags: ['privacy', 'gdpr'],
     related: [{ text: 'Data Processor', href: '#data-processor' }, { text: 'Zero Transmission', href: '#zero-transmission' }]
   },
@@ -270,7 +270,7 @@ const TERMS = [
   {
     term: 'Data Processor',
     def: 'Under GDPR Article 4(8), a natural or legal person that processes personal data on behalf of a data controller. Unlike a data controller, a data processor does not determine the purposes of processing — they act under the controller\'s instructions. A Data Processing Agreement (DPA) is required between controllers and processors.',
-    context: 'NullifyCV does not act as a data processor because no personal data is transmitted to NullifyCV — all processing occurs client-side in the user\'s browser. No DPA is required.',
+    context: "Assess processing roles for each activity. Local CV processing is distinct from payment, licence, analytics and support data handling.",
     tags: ['gdpr', 'legal'],
     related: [{ text: 'Data Controller', href: '#data-controller' }, { text: 'Client-Side Processing', href: '#client-side-processing' }]
   },
@@ -278,7 +278,7 @@ const TERMS = [
     term: 'Data Processing Agreement',
     also: 'Also: DPA',
     def: 'A legally binding contract required under GDPR Article 28 between a data controller and any third-party data processor. The DPA specifies the subject matter, duration, nature, and purpose of the processing, as well as the obligations and rights of each party.',
-    context: 'Because NullifyCV processes files client-side and receives no personal data, no Data Processing Agreement is required for its use.',
+    context: "Whether a DPA is required depends on the roles and processing involved. Consult the privacy policy and your own data-protection assessment.",
     tags: ['gdpr', 'legal'],
     related: [{ text: 'Data Processor', href: '#data-processor' }, { text: 'GDPR', href: '#gdpr' }]
   },
@@ -293,7 +293,7 @@ const TERMS = [
     term: 'DPO',
     also: 'Data Protection Officer',
     def: 'A role required under GDPR Article 37 for certain organisations — including public authorities, organisations that process sensitive data at scale, or those engaged in large-scale systematic monitoring. The DPO is responsible for ensuring the organisation\'s GDPR compliance and acts as a point of contact for data subjects and supervisory authorities.',
-    context: 'The NullifyCV GDPR-annotated audit log is designed to be presented to DPOs as evidence of a data minimisation workflow in the hiring process.',
+    context: 'A NullifyCV workflow log can help describe the redaction actions taken. A DPO should assess it together with the organisation\'s wider hiring and data-handling process.',
     tags: ['gdpr', 'legal'],
     related: [{ text: 'GDPR', href: '#gdpr' }, { text: 'Audit Log', href: '#audit-log' }]
   },
@@ -301,7 +301,7 @@ const TERMS = [
     term: 'EEOC',
     also: 'Equal Employment Opportunity Commission',
     def: 'The US federal agency responsible for enforcing federal laws prohibiting employment discrimination. The EEOC enforces Title VII of the Civil Rights Act, the Age Discrimination in Employment Act (ADEA), the Americans with Disabilities Act (ADA), and other statutes. EEOC guidelines inform best practice for structured and blind hiring in the United States.',
-    context: 'EEOC blind review mode in NullifyCV removes all demographic signals including graduation year (age proxy), school name, gender pronouns, and profile photos — supporting EEOC-compliant structured hiring.',
+    context: 'EEOC blind review mode in NullifyCV targets selected signals such as school name, gender pronouns and profile photos. Automated detection can miss details, so review the output before using it in a structured hiring workflow.',
     tags: ['eeoc', 'legal'],
     related: [{ text: 'Blind Hiring', href: '#blind-hiring' }, { text: 'Title VII', href: '#title-vii' }, { text: 'ADEA', href: '#adea' }]
   },
@@ -353,7 +353,7 @@ const TERMS = [
   {
     term: 'Pseudonymisation',
     def: 'The processing of personal data in such a way that it can no longer be attributed to a specific data subject without the use of additional information, provided that such additional information is kept separately. Unlike anonymisation, pseudonymisation is reversible — the original data can be restored using the additional information. GDPR Article 4(5) defines pseudonymisation; Article 25 recommends it as a privacy-by-design measure.',
-    context: 'CV redaction for blind hiring is closer to pseudonymisation than true anonymisation — the recruiter retains the original CV and can re-identify the candidate if needed. The redacted copy shared with evaluators prevents identification during the scoring process.',
+    context: "A redacted CV may remain personal data. Assess whether the remaining information permits identification and handle copies accordingly.",
     tags: ['gdpr', 'privacy'],
     related: [{ text: 'Anonymisation', href: '#anonymisation' }, { text: 'GDPR', href: '#gdpr' }]
   },
@@ -368,14 +368,14 @@ const TERMS = [
     term: 'Records of Processing Activities',
     also: 'Also: RoPA, Article 30 Record',
     def: 'A document required under GDPR Article 30 that organisations must maintain describing their data processing activities. A RoPA must include the purposes of processing, categories of data subjects and personal data, recipients of the data, retention periods, and security measures. Organisations with fewer than 250 employees are generally exempt unless their processing is not occasional, involves special category data, or poses a risk to data subjects.',
-    context: 'The NullifyCV audit log can be referenced in a RoPA as evidence that CV data is processed under a documented data minimisation workflow.',
+    context: 'A NullifyCV workflow log can support internal recordkeeping, but it is not itself a complete RoPA or proof of compliance.',
     tags: ['gdpr', 'legal'],
     related: [{ text: 'GDPR', href: '#gdpr' }, { text: 'DPO', href: '#dpo' }, { text: 'Audit Log', href: '#audit-log' }]
   },
   {
     term: 'Redaction',
     def: 'The act of editing a document to remove or obscure sensitive or confidential information before sharing or publishing. In legal and government contexts, redaction typically means covering text with black bars. In CV processing, redaction refers to the systematic removal of PII and bias signals from candidate documents.',
-    context: 'NullifyCV performs PDF redaction by drawing solid black rectangles over the coordinates of detected PII on the original document — preserving layout, fonts, and formatting while making the underlying text permanently unreadable.',
+    context: "Review the exported document and its remaining identifiers before sharing. Detection and redaction are not guaranteed complete.",
     tags: ['privacy', 'hr'],
     related: [{ text: 'CV Redaction', href: '#cv-redaction' }, { text: 'PII', href: '#pii' }]
   },
@@ -404,7 +404,7 @@ const TERMS = [
   {
     term: 'Title VII',
     def: 'Title VII of the Civil Rights Act of 1964 — the primary US federal law prohibiting employment discrimination based on race, colour, religion, sex, or national origin. Title VII applies to employers with 15 or more employees and is enforced by the EEOC.',
-    context: 'Blind hiring supports Title VII compliance by reducing the opportunity for name-based, gender-based, and origin-based discrimination at the screening stage.',
+    context: 'Blind review can reduce the opportunity for some protected traits to influence screening. It does not by itself establish Title VII compliance or remove every source of bias.',
     tags: ['eeoc', 'legal'],
     related: [{ text: 'EEOC', href: '#eeoc' }, { text: 'ADEA', href: '#adea' }, { text: 'Blind Hiring', href: '#blind-hiring' }]
   },
@@ -412,7 +412,7 @@ const TERMS = [
     term: 'ADEA',
     also: 'Age Discrimination in Employment Act',
     def: 'US federal law enacted in 1967 prohibiting employment discrimination against persons 40 years of age or older. The ADEA applies to employers with 20 or more employees and is enforced by the EEOC. Using graduation years, class years, or early employment dates to infer a candidate\'s age and discriminate on that basis violates the ADEA.',
-    context: 'NullifyCV removes graduation years and early employment date patterns as age proxies, supporting ADEA-compliant blind screening.',
+    context: "The graduation-year option targets explicit graduation patterns. Broad employment-year removal is not performed.",
     tags: ['eeoc', 'legal'],
     related: [{ text: 'EEOC', href: '#eeoc' }, { text: 'Title VII', href: '#title-vii' }, { text: 'Bias Signal', href: '#bias-signal' }]
   },
@@ -426,8 +426,8 @@ const TERMS = [
   },
   {
     term: 'Zero Transmission',
-    def: 'A privacy architecture in which a service processes user data without any data being transmitted to the service provider\'s servers. Zero transmission is achieved through client-side processing — all computation occurs in the user\'s browser using locally executed code. This means the service provider never receives, stores, or processes the user\'s data.',
-    context: 'NullifyCV operates on a zero transmission architecture. CV files are read, processed, and redacted entirely within the user\'s browser. The service can be verified by opening browser DevTools and observing that no outbound requests contain document data during processing.',
+    def: 'A narrow description for a specific local-processing data flow in which the relevant content is not sent to a remote processing server. It should not be used to imply that an entire website makes no network requests.',
+    context: "Document processing stays local. The site also makes requests for payments, licence verification, analytics, error reporting and asset delivery.",
     tags: ['privacy'],
     related: [{ text: 'Client-Side Processing', href: '#client-side-processing' }, { text: 'Data Processor', href: '#data-processor' }]
   },

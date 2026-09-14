@@ -4,75 +4,57 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NullifyCV — Privacy-First Resume De-Identifier</title>
-  <meta name="description" content="Remove PII from resumes for blind hiring. 100% client-side processing — your files never leave your browser. Free GDPR-compliant redaction tool.">
+  <meta name="description" content="Redact personal details from PDF and DOCX resumes in your browser. Basic use is free; unlock one CV for €2.99 or batch processing for €49/year.">
   <meta name="keywords" content="resume redaction, blind hiring, remove PII from resume, GDPR hiring, de-identify CV, nullify CV">
   <meta property="og:title" content="NullifyCV — Privacy-First Resume De-Identifier">
-  <meta property="og:description" content="Remove bias-causing PII from resumes for blind hiring. Files never leave your browser.">
-  <meta property="og:url" content="https://nullifycv.com">
+  <meta property="og:description" content="Redact personal details from resumes in your browser. Basic use is free, with paid single-CV and batch options.">
+  <meta property="og:url" content="https://www.nullifycv.com/">
   <meta property="og:type" content="website">
-  <link rel="canonical" href="https://nullifycv.com">
+  <link rel="canonical" href="https://www.nullifycv.com/">
++  <link rel="alternate" hreflang="x-default" href="https://www.nullifycv.com/">
+  <link rel="alternate" hreflang="en" href="https://www.nullifycv.com/">
+  <link rel="alternate" hreflang="en-US" href="https://www.nullifycv.com/us.html">
+  <link rel="alternate" hreflang="en-GB" href="https://www.nullifycv.com/uk.html">
+  <link rel="alternate" hreflang="en-CA" href="https://www.nullifycv.com/ca.html">
+  <link rel="alternate" hreflang="nl-NL" href="https://www.nullifycv.com/nl.html">
+  <link rel="alternate" hreflang="de-DE" href="https://www.nullifycv.com/de.html">
+  <link rel="alternate" hreflang="fr-FR" href="https://www.nullifycv.com/fr.html">
+  <link rel="alternate" hreflang="es-ES" href="https://www.nullifycv.com/es.html">
+  <link rel="alternate" hreflang="fi-FI" href="https://www.nullifycv.com/fi.html">
+  <link rel="alternate" hreflang="sv-SE" href="https://www.nullifycv.com/se.html">
+  <link rel="alternate" hreflang="ko-KR" href="https://www.nullifycv.com/kr.html">
   
   
   
   <!-- Structured data for SEO -->
   <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebApplication",
-      "@id": "https://nullifycv.com/#app",
-      "name": "NullifyCV",
-      "url": "https://nullifycv.com/",
-      "description": "Privacy-first CV redaction tool. Removes personally identifying information from PDF and DOCX resumes entirely in your browser — no uploads, no server, no data stored.",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Windows, macOS, Linux, Android, iOS",
-      "offers": [
-        {
-          "@type": "Offer",
-          "name": "Free",
-          "price": "0",
-          "priceCurrency": "USD"
-        },
-        {
-          "@type": "Offer",
-          "name": "Week Pass",
-          "price": "4.99",
-          "priceCurrency": "USD"
-        },
-        {
-          "@type": "Offer",
-          "name": "Pro Monthly",
-          "price": "49",
-          "priceCurrency": "USD"
-        }
-      ],
-      "featureList": "Client-side processing, PDF redaction, DOCX redaction, GDPR data minimisation support, Dutch CV support, blind hiring workflow, no account required, no ads, open source",
-      "isAccessibleForFree": "True",
-      "creator": {
-        "@type": "Organization",
-        "@id": "https://nullifycv.com/#organization",
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://www.nullifycv.com/#website",
         "name": "NullifyCV",
-        "url": "https://nullifycv.com",
-        "logo": "https://nullifycv.com/icons/favicon.svg",
-        "sameAs": [
-          "https://github.com/NullifyCV/nullifyCV"
+        "url": "https://www.nullifycv.com/"
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://www.nullifycv.com/#app",
+        "name": "NullifyCV",
+        "url": "https://www.nullifycv.com/",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Any modern web browser",
+        "description": "Browser-based CV and resume redaction for privacy-conscious sharing and blind review.",
+        "isAccessibleForFree": true,
+        "offers": [
+          {"@type": "Offer", "name": "Free", "price": "0", "priceCurrency": "EUR"},
+          {"@type": "Offer", "name": "Single CV", "price": "2.99", "priceCurrency": "EUR"},
+          {"@type": "Offer", "name": "Annual batch access", "price": "49", "priceCurrency": "EUR"}
         ]
       }
-    },
-    {
-      "@type": "Organization",
-      "@id": "https://nullifycv.com/#organization",
-      "name": "NullifyCV",
-      "url": "https://nullifycv.com",
-      "logo": "https://nullifycv.com/icons/favicon.svg",
-      "sameAs": [
-        "https://github.com/NullifyCV/nullifyCV"
-      ]
-    }
-  ]
-}
-</script>
+    ]
+  }
+  </script>
   <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
@@ -159,25 +141,25 @@
 
     <div class="page-head">
       <h1 class="page-title">Your CV. Your browser.<br><span>Nobody else's business.</span></h1>
-      <p class="page-sub">NullifyCV removes personal data from CVs for blind hiring and privacy compliance. Processing happens entirely in your browser — your files never travel, never upload, never leave.</p>
+      <p class="page-sub">Redact personal details from PDF and DOCX resumes for privacy-conscious sharing and blind review. Document processing happens on your device.</p>
       <!-- Trust strip -->
       <div class="trust-strip">
         <span class="ts-item">🔒 Local only</span>
         <span class="ts-sep">·</span>
-        <span class="ts-item">📡 <span id="bytes-counter">0</span> bytes sent</span>
+        <span class="ts-item">📄 CV files stay on your device</span>
         <span class="ts-sep">·</span>
         <span class="ts-item">🔓 <a href="https://github.com/NullifyCV/nullifyCV" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Open source</a></span>
         <span class="ts-sep">·</span>
         <span class="ts-item ts-verify" onclick="document.getElementById('verify-tooltip').classList.toggle('show')" style="cursor:pointer;text-decoration:underline;">How to verify ↗</span>
       </div>
-      <p style="font-size:11px;color:var(--ink3);margin-top:6px;font-family:var(--mono);">Free to use with no email. Paid plans use <a href="https://stripe.com" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Stripe</a> for checkout — <a href="/privacy.html" style="color:inherit;text-decoration:underline;">what data we see</a>.</p>
+      <p style="font-size:11px;color:var(--ink3);margin-top:6px;font-family:var(--mono);">Basic redaction is free with no email. Analytics and error reporting help us improve the tool. Paid plans use <a href="https://stripe.com" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Stripe</a> for checkout — <a href="/privacy.html" style="color:inherit;text-decoration:underline;">what data we see</a>.</p>
       <!-- Verify tooltip -->
       <div id="verify-tooltip" style="background:var(--paper);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-top:8px;font-size:12px;color:var(--ink2);line-height:1.7;text-align:left;box-shadow:var(--shadow);">
-        <strong style="color:var(--green-dark);display:block;margin-bottom:6px;">How to verify 0 bytes are transmitted</strong>
+        <strong style="color:var(--green-dark);display:block;margin-bottom:6px;">How to inspect document processing</strong>
         1. Open DevTools (F12) → Network tab<br>
         2. Upload and process a CV<br>
-        3. Filter by "Fetch/XHR" — you will see zero outbound requests containing file data<br>
-        4. Or check the Network Monitor panel below the tool<br>
+        3. Inspect the requests: the redaction workflow does not send the CV file or extracted document text<br>
+        4. Payment, licence, analytics and error-reporting requests are expected; inspect request contents as well as destinations<br>
         <a href="https://github.com/NullifyCV/nullifyCV" target="_blank" rel="noopener" style="color:var(--green-dark);font-weight:600;">View source code on GitHub →</a>
       </div>
     </div>
@@ -185,10 +167,10 @@
     <!-- Mode tabs -->
     <p class="slabel">Redaction mode</p>
     <div id="mode-tabs" class="tabs" role="tablist" aria-label="Redaction mode">
-      <button class="tab on" role="tab" aria-selected="true" onclick="setMode('standard',this)">Standard PII</button>
-      <button class="tab tab-locked" role="tab" aria-selected="false" onclick="showUpgrade('mode')">Bias strip 🔒</button>
-      <button class="tab tab-locked" role="tab" aria-selected="false" onclick="showUpgrade('mode')">Client sub. 🔒</button>
-      <button class="tab tab-locked" role="tab" aria-selected="false" onclick="showUpgrade('mode')">EEOC 🔒</button>
+      <button class="tab on" data-mode="standard" role="tab" aria-selected="true" onclick="setMode('standard',this)">Standard PII</button>
+      <button class="tab tab-locked" data-mode="bias" role="tab" aria-selected="false" onclick="showUpgrade('mode','bias')">Bias strip 🔒</button>
+      <button class="tab tab-locked" data-mode="client" role="tab" aria-selected="false" onclick="showUpgrade('mode','client')">Client sub. 🔒</button>
+      <button class="tab tab-locked" data-mode="eeoc" role="tab" aria-selected="false" onclick="showUpgrade('mode','eeoc')">EEOC 🔒</button>
     </div>
 
     <!-- Licence status bar -->
@@ -201,50 +183,23 @@
       <div class="tcard on" data-key="contact" onclick="toggleCard(this)" role="checkbox" aria-checked="true" tabindex="0"><div class="tbox">✓</div><div><div class="tlabel">Contact info</div><div class="tdesc">Email, phone, address</div></div></div>
       <div class="tcard on" data-key="location" onclick="toggleCard(this)" role="checkbox" aria-checked="true" tabindex="0"><div class="tbox">✓</div><div><div class="tlabel">Location / zip</div><div class="tdesc">Demographic proxy</div></div></div>
       <div class="tcard on" data-key="gradyear" onclick="toggleCard(this)" role="checkbox" aria-checked="true" tabindex="0"><div class="tbox">✓</div><div><div class="tlabel">Graduation year</div><div class="tdesc">Age proxy</div></div></div>
-      <div class="tcard tcard-locked" data-key="school" onclick="showUpgrade('target')" role="checkbox" aria-checked="false" tabindex="0"><div class="tbox">🔒</div><div><div class="tlabel">School names</div><div class="tdesc">Prestige bias · paid</div></div></div>
-      <div class="tcard tcard-locked" data-key="pronouns" onclick="showUpgrade('target')" role="checkbox" aria-checked="false" tabindex="0"><div class="tbox">🔒</div><div><div class="tlabel">Gender pronouns</div><div class="tdesc">He/she/they · paid</div></div></div>
-      <div class="tcard tcard-locked" data-key="urls" onclick="showUpgrade('target')" role="checkbox" aria-checked="false" tabindex="0"><div class="tbox">🔒</div><div><div class="tlabel">LinkedIn / URLs</div><div class="tdesc">Profile links · paid</div></div></div>
-      <div class="tcard tcard-locked" data-key="metadata" onclick="showUpgrade('target')" role="checkbox" aria-checked="false" tabindex="0"><div class="tbox">🔒</div><div><div class="tlabel">File metadata</div><div class="tdesc">Author in DOCX · paid</div></div></div>
+      <div class="tcard tcard-locked" data-key="school" onclick="showUpgrade('target','school')" role="checkbox" aria-checked="false" tabindex="0"><div class="tbox">🔒</div><div><div class="tlabel">School names</div><div class="tdesc">Prestige bias · paid</div></div></div>
+      <div class="tcard tcard-locked" data-key="pronouns" onclick="showUpgrade('target','pronouns')" role="checkbox" aria-checked="false" tabindex="0"><div class="tbox">🔒</div><div><div class="tlabel">Gender pronouns</div><div class="tdesc">He/she/they · paid</div></div></div>
+      <div class="tcard tcard-locked" data-key="urls" onclick="showUpgrade('target','urls')" role="checkbox" aria-checked="false" tabindex="0"><div class="tbox">🔒</div><div><div class="tlabel">LinkedIn / URLs</div><div class="tdesc">Profile links · paid</div></div></div>
+      <div class="tcard tcard-locked" data-key="metadata" onclick="showUpgrade('target','metadata')" role="checkbox" aria-checked="false" tabindex="0"><div class="tbox">🔒</div><div><div class="tlabel">File metadata</div><div class="tdesc">Author in DOCX · paid</div></div></div>
     </div>
 
     <!-- UPGRADE MODAL -->
-    <div id="upgrade-overlay" onclick="closeUpgrade()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;"></div>
-    <div id="upgrade-modal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1001;background:var(--paper);border:1px solid var(--border);border-radius:var(--rl);padding:28px;max-width:400px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.2);">
-      <div style="font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--green-muted);margin-bottom:8px;">Paid feature</div>
-      <h3 id="upgrade-title" style="font-size:18px;font-weight:800;color:var(--green-dark);margin-bottom:8px;letter-spacing:-0.5px;">Unlock advanced redaction</h3>
-      <p id="upgrade-desc" style="font-size:13px;color:var(--ink3);line-height:1.6;margin-bottom:20px;"></p>
-      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">
-        <a href="https://buy.stripe.com/fZu28s9Lc0yl1jKfIN18c05" style="display:block;background:var(--green-dark);color:white;text-align:center;padding:12px;border-radius:var(--r);font-size:14px;font-weight:700;text-decoration:none;">Week pass — $4.99 &nbsp;<span style="font-weight:400;font-size:11px;opacity:.8">7 days unlimited</span></a>
-        <a href="/pro.html" style="display:block;background:transparent;color:var(--green-dark);border:1px solid var(--border);text-align:center;padding:10px;border-radius:var(--r);font-size:12px;font-weight:600;text-decoration:none;">Need more? See Pro plans →</a>
-      </div>
-      <div style="border-top:1px solid var(--border);margin-top:4px;padding-top:12px;">
-        <p style="font-size:11px;color:var(--ink3);font-family:var(--mono);margin-bottom:4px;">Previously purchased? Lost access?</p>
-        <a href="mailto:support@nullifycv.com?subject=Restore%20NullifyCV%20Access&body=Hi%2C%20I%20purchased%20NullifyCV%20and%20lost%20access.%20My%20Stripe%20receipt%20is%3A%20" style="font-size:11px;color:var(--green-dark);font-weight:600;text-decoration:underline;">Email support@nullifycv.com with your Stripe receipt →</a>
-      </div>
-      <p style="font-size:10px;color:var(--ink3);line-height:1.5;margin-top:12px;margin-bottom:0;">Checkout is handled by Stripe. Stripe will collect your email and billing details to process the payment — we use your email only to deliver your licence and reply to support. <a href="/privacy.html" style="color:var(--green-dark);text-decoration:underline;">Full privacy policy →</a></p>
-      <button onclick="closeUpgrade()" style="width:100%;background:none;border:none;color:var(--ink3);font-size:12px;cursor:pointer;padding:8px 4px 0;">No thanks — stay on free plan</button>
-    </div>
-
-    <!-- UPGRADE MODAL -->
-    <div id="upgrade-overlay" onclick="closeUpgrade()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;"></div>
-    <div id="upgrade-modal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1001;background:var(--paper);border:1px solid var(--border);border-radius:var(--rl);padding:28px;max-width:400px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.2);">
-      <div style="font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--green-muted);margin-bottom:8px;">Paid feature</div>
-      <h3 id="upgrade-title" style="font-size:18px;font-weight:800;color:var(--green-dark);margin-bottom:8px;letter-spacing:-0.5px;">Unlock advanced redaction</h3>
-      <p id="upgrade-desc" style="font-size:13px;color:var(--ink3);line-height:1.6;margin-bottom:20px;"></p>
-      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">
-        <a href="https://buy.stripe.com/fZu28s9Lc0yl1jKfIN18c05?success_url=https://nullifycv.com/success.html?plan=week" style="display:block;background:var(--green-dark);color:white;text-align:center;padding:12px;border-radius:var(--r);font-size:14px;font-weight:700;text-decoration:none;">Week pass — $4.99 &nbsp;<span style="font-weight:400;font-size:11px;opacity:.8">7 days unlimited</span></a>
-        <a href="/pro.html" style="display:block;background:transparent;color:var(--green-dark);border:1px solid var(--border);text-align:center;padding:10px;border-radius:var(--r);font-size:12px;font-weight:600;text-decoration:none;">Pro $49/mo &nbsp;·&nbsp; See all plans →</a>
-      </div>
-      <div style="text-align:center;margin-bottom:8px;">
-        <span style="font-size:11px;color:var(--ink3);font-family:var(--mono);">Already paid? </span>
-        <button onclick="closeUpgrade();document.getElementById('licence-box').scrollIntoView({behavior:'smooth'});" style="background:none;border:none;color:var(--green-dark);font-size:11px;font-weight:600;cursor:pointer;text-decoration:underline;">Enter licence key →</button>
-      </div>
-      <div style="border-top:1px solid var(--border);margin-top:4px;padding-top:12px;">
-        <p style="font-size:11px;color:var(--ink3);font-family:var(--mono);margin-bottom:4px;">Previously purchased? Lost access?</p>
-        <a href="mailto:support@nullifycv.com?subject=Restore%20NullifyCV%20Access&body=Hi%2C%20I%20purchased%20NullifyCV%20and%20lost%20access.%20My%20Stripe%20receipt%20is%3A%20" style="font-size:11px;color:var(--green-dark);font-weight:600;text-decoration:underline;">Email support@nullifycv.com with your Stripe receipt →</a>
-      </div>
-      <p style="font-size:10px;color:var(--ink3);line-height:1.5;margin-top:12px;margin-bottom:0;">Checkout is handled by Stripe. Stripe will collect your email and billing details to process the payment — we use your email only to deliver your licence and reply to support. <a href="/privacy.html" style="color:var(--green-dark);text-decoration:underline;">Full privacy policy →</a></p>
-      <button onclick="closeUpgrade()" style="width:100%;background:none;border:none;color:var(--ink3);font-size:12px;cursor:pointer;padding:8px 4px 0;">No thanks — stay on free plan</button>
+    <div id="upgrade-overlay" onclick="closeUpgrade()" style="display:none;position:fixed;inset:0;background:#0008;z-index:1000"></div>
+    <div id="upgrade-modal" role="dialog" aria-modal="true" aria-labelledby="upgrade-title" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1001;background:var(--paper);padding:24px;border-radius:14px;width:min(440px,90vw);max-height:85vh;overflow:auto">
+      <h3 id="upgrade-title">Unlock your CV</h3><p id="upgrade-desc"></p>
+      <button type="button" class="ncv-buy" onclick="ncvStartCheckout('single')">Unlock this CV — €2.99</button>
+      <p>All redaction options for one source CV. Correct selections and download again. No subscription.</p>
+      <button type="button" class="ncv-buy ncv-secondary" onclick="ncvStartCheckout('annual')">Unlimited batch access — €49/year</button>
+      <p>All redaction options, up to 200 files per batch and ZIP/audit exports. Renews annually until cancelled. Prices include applicable tax.</p>
+      <p class="ncv-small">Stripe handles payment. We use payment/licence records, analytics and error reporting. Your CV stays on this device. To resume after checkout, a temporary browser copy is kept until return; abandoned copies are removed on your next visit after 24 hours. <a href="/privacy.html">Privacy details</a>.</p>
+      <p><a href="mailto:support@nullifycv.com?subject=Restore%20access">Already paid? Get help restoring access</a></p>
+      <button type="button" onclick="closeUpgrade()">Continue free</button>
     </div>
 
     <!-- File loaded state -->
@@ -305,12 +260,11 @@
 
     <!-- Network monitor -->
     <div class="nm" id="nm" aria-label="Network activity monitor">
-      <div class="nm-h">// network monitor · nullifycv.com</div>
-      <div class="nm-ok">✓ pdf-lib: loaded from CDN once, then cached</div>
-      <div class="nm-ok">✓ mammoth.js: loaded from CDN once, then cached</div>
-      <div class="nm-no">✗ file data: never transmitted — Blob URL only</div>
-      <div class="nm-ok">✓ redaction engine: runs in JS thread, zero network calls</div>
-      <div class="nm-dim">— 0 bytes of document data transmitted</div>
+      <div class="nm-h">// local processing · nullifycv.com</div>
+      <div class="nm-ok">✓ pdf.js, pdf-lib and mammoth.js: loaded as browser libraries</div>
+      <div class="nm-no">✗ CV file and extracted text: not sent by the redaction workflow</div>
+      <div class="nm-ok">✓ redaction engine: runs in your browser</div>
+      <div class="nm-dim">— Document processing runs in your browser — not a traffic measurement</div>
     </div>
 
     <!-- Actions -->
@@ -327,11 +281,11 @@
     <div class="post-ad" id="pad">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
         <span style="font-size:20px;">✓</span>
-        <strong style="font-size:14px;color:var(--green-dark);">File processed locally — nothing transmitted</strong>
+        <strong style="font-size:14px;color:var(--green-dark);">CV processed on your device</strong>
       </div>
       <p class="pad-ok" id="padok" style="font-size:12px;color:var(--ink3);margin:0;font-family:var(--mono);"></p>
       <div style="margin-top:10px;font-size:11px;color:var(--ink3);font-family:var(--mono);">
-        0 bytes of document data sent to any server · Redacted file created in browser memory · Blob URL revoked after download
+        CV processing runs locally. This is an application description, not a measured network report.
       </div>
     </div>
 
@@ -357,15 +311,15 @@
           <div class="trust-icon" aria-hidden="true">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="16" height="16" rx="3" stroke="#2d6b4a" stroke-width="1.3"/><path d="M6 10l2.5 2.5L14 7" stroke="#2d6b4a" stroke-width="1.3" stroke-linecap="round"/></svg>
           </div>
-          <h3>GDPR-consistent workflow</h3>
-          <p>Supports data minimisation under GDPR Article 5(1)(c), purpose limitation under Article 5(1)(b), and EEOC blind review documentation requirements.</p>
+          <h3>Supports data minimisation workflow</h3>
+          <p>Supports data-minimisation and purpose-limitation workflows, plus internal recordkeeping for structured blind review. It does not determine legal compliance.</p>
         </div>
         <div class="trust-card">
           <div class="trust-icon" aria-hidden="true">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="#2d6b4a" stroke-width="1.3"/><path d="M7 10l2 2 4-4" stroke="#2d6b4a" stroke-width="1.3" stroke-linecap="round"/></svg>
           </div>
-          <h3>No data processor relationship</h3>
-          <p>NullifyCV does not act as a data processor under GDPR. No personal data is transmitted to us — there is nothing for us to process, store, or be liable for.</p>
+          <h3>Separate, limited online services</h3>
+          <p>Payments, licence checks, analytics and error reporting use online services. The CV redaction itself stays on your device. See the privacy policy for the full data flow.</p>
         </div>
       </div>
     </section>
@@ -380,9 +334,9 @@
       <strong>Privacy architecture</strong>
       <div class="trow"><span class="tick" aria-hidden="true">✓</span><span>pdf-lib processes files in browser memory</span></div>
       <div class="trow"><span class="tick" aria-hidden="true">✓</span><span>mammoth.js extracts DOCX locally</span></div>
-      <div class="trow"><span class="tick" aria-hidden="true">✓</span><span>Zero server endpoints — static site only</span></div>
-      <div class="trow"><span class="tick" aria-hidden="true">✓</span><span>Not a GDPR data processor — nothing transmitted</span></div>
-      <div class="trow"><span class="tick" aria-hidden="true">✓</span><span>Hosted on Vercel CDN — no server-side code</span></div>
+      <div class="trow"><span class="tick" aria-hidden="true">✓</span><span>CV processing in your browser</span></div>
+      <div class="trow"><span class="tick" aria-hidden="true">✓</span><span>Payment and usage data explained in our privacy policy</span></div>
+      <div class="trow"><span class="tick" aria-hidden="true">✓</span><span>Vercel hosting · online payment and licence services</span></div>
       <div class="trow"><span class="tick" aria-hidden="true">✓</span><span>Open source — audit the code yourself</span></div>
     </div>
 
@@ -400,7 +354,7 @@
     <div style="background:var(--paper2);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;margin-top:0;">
       <div style="font-size:11px;font-weight:700;color:var(--ink);margin-bottom:6px;">How to verify the privacy claims</div>
       <div style="font-size:11px;color:var(--ink3);line-height:1.65;">
-        Open DevTools (F12) → Network tab → upload a file and process it. Filter by Fetch/XHR. You will see zero outbound requests containing document data.
+        Open DevTools (F12) → Network tab → upload a file and process it. Inspect request contents: the redaction workflow does not send your CV file or extracted text.
       </div>
     </div>
 
@@ -408,8 +362,8 @@
     <div class="pro-box">
       <div class="pro-badge">Pro</div>
       <strong>Need batch processing?</strong>
-      <p>Process 200 files at once, save redaction profiles, and export GDPR-annotated audit logs for your DPO.</p>
-      <a href="/pro.html" class="pro-cta">See plans — from $4.99 →</a>
+      <p>Process 200 files at once, choose redaction settings, and download a ZIP with a workflow audit log.</p>
+      <button type="button" onclick="ncvStartCheckout('annual')" class="pro-cta">Batch access — €49/year →</button>
     </div>
 
   </aside>
@@ -476,7 +430,7 @@
     <button id="batch-dl-btn" style="display:none;background:var(--green-bg);color:var(--green-dark);border:1.5px solid var(--green-mid);border-radius:var(--r);padding:11px 24px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--sans);">
       ↓ Download ZIP
     </button>
-    <span style="font-size:11px;color:var(--ink3);font-family:var(--mono);">0 bytes transmitted · all processing local</span>
+    <span style="font-size:11px;color:var(--ink3);font-family:var(--mono);">CV processing stays local · online licence checks</span>
   </div>
 </div>
 
@@ -510,7 +464,7 @@
   <span aria-hidden="true">·</span>
   <a href="/terms.html">Terms</a>
   <span aria-hidden="true">·</span>
-  <small>No uploads · No storage · Open source · GDPR-consistent · Not legal advice</small>
+  <small>Local CV processing · Open source · Supports data minimisation · Not legal advice</small>
 </footer>
 
 <!-- ── LIBRARIES ─────────────────────────────────────────────────────────── -->
@@ -522,38 +476,8 @@
 <script src="https://unpkg.com/mammoth@1.6.0/mammoth.browser.min.js" integrity="sha384-nFoSjZIoH3CCp8W639jJyQkuPHinJ2NHe7on1xvlUA7SuGfJAfvMldrsoAVm6ECz" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" integrity="sha384-+mbV2IY1Zk/X1p/nWllGySJSUN8uMs+gUAN10Or95UBH0fpj6GfKgPmgC5EXieXG" crossorigin="anonymous"></script>
 <script src="app.js"></script>
+<script src="checkout.js"></script>
 <script defer src="/_vercel/insights/script.js"></script>
-
-<script>
-// ── Stripe checkout click tracking ─────────────────────────────────────────
-// Captures clicks on any Stripe payment button and reports the plan name to
-// Vercel Analytics. Combined with Stripe dashboard data, this gives us the
-// click → checkout → payment funnel.
-(function() {
-  var PLAN_BY_STRIPE_ID = {
-    'c04': 'single_file',
-    'c05': 'week_pass',
-    'c06': 'month_pass',
-    'c07': 'pro_monthly',
-    'c08': 'pro_annual',
-    'c09': 'team',
-  };
-
-  document.addEventListener('click', function(e) {
-    var link = e.target.closest('a[href*="buy.stripe.com"]');
-    if (!link) return;
-    var match = link.href.match(/(c0[4-9])(?:\?|$)/);
-    var plan = match ? PLAN_BY_STRIPE_ID[match[1]] : 'unknown';
-    var location = window.location.pathname.replace(/^\//, '') || 'home';
-    // Flag for the upgrade modal so we know the close that follows isn't a dismissal.
-    // app.js reads this to distinguish "user clicked through" vs "user closed without clicking".
-    window._upgradeModalCheckoutClicked = true;
-    if (window.va) {
-      window.va('event', { name: 'checkout_click', plan: plan, source: location });
-    }
-  });
-})();
-</script>
 
 <script>
 (function() {

@@ -4,8 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CV Anonymisation for Recruiters — A Practical Guide | NullifyCV</title>
-  <meta name="description" content="Learn how to anonymise CVs for blind hiring as a recruiter. Free tool, GDPR-consistent, files never leave your browser. Step-by-step guide.">
-  <link rel="canonical" href="https://nullifycv.com/blog/cv-anonymisation-for-recruiters.html">
+  <meta name="description" content="Learn how recruiters can redact selected CV details for blind review, client sharing and a smaller personal-data footprint.">
+  <link rel="canonical" href="https://www.nullifycv.com/blog/cv-anonymisation-for-recruiters.html">
+  <meta property="og:title" content="CV Anonymisation for Recruiters — A Practical Guide | NullifyCV">
+  <meta property="og:description" content="Learn how recruiters can redact selected CV details for blind review, client sharing and a smaller personal-data footprint.">
+  <meta property="og:url" content="https://www.nullifycv.com/blog/cv-anonymisation-for-recruiters.html">
+  <meta property="og:type" content="article">
   <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -51,10 +55,10 @@
 
     <p>As a recruiter or HR professional you share CVs every day — with hiring managers, panel members, and external clients. What often gets overlooked: every time you forward a complete CV, you're distributing personal data that the candidate may not want widely shared, and that under GDPR you arguably shouldn't be distributing unnecessarily.</p>
 
-    <p>This guide explains what CV anonymisation means in practice, why it matters legally and ethically, which data you should remove, and how to do it quickly using a free tool that never uploads files to any server.</p>
+    <p>This guide explains what CV anonymisation means in practice, why it matters legally and ethically, which data you should remove, and how to do it using a browser-based tool with free basic redaction.</p>
 
     <div class="post-callout">
-      <p>📌 In a hurry? Go straight to the tool: <a href="/" style="color:var(--green-dark);text-decoration:underline;">nullifycv.com</a> — upload a PDF or DOCX, choose your redaction profile, download the anonymised file. Free, no account needed, files never leave your browser.</p>
+      <p>📌 In a hurry? Go straight to the tool: <a href="/" style="color:var(--green-dark);text-decoration:underline;">nullifycv.com</a> — upload a PDF or DOCX, choose your redaction profile, download the redacted file. Basic redaction is free with no account; CV processing stays in your browser.</p>
     </div>
 
     <h2>What is CV anonymisation?</h2>
@@ -82,7 +86,7 @@
 
     <h3>3. Right to erasure becomes simpler</h3>
 
-    <p>Under GDPR Article 17, candidates have the right to request deletion of their personal data. If you've forwarded a complete CV to ten people internally, honouring an erasure request becomes complex. An anonymised copy shared with the panel contains no personal data — making erasure requests far simpler to manage.</p>
+    <p>Under GDPR Article 17, candidates have the right to request deletion of their personal data. If you've forwarded a complete CV to ten people internally, honouring an erasure request becomes complex. An anonymised copy shared with the panel may still contain identifying information — making erasure requests far simpler to manage.</p>
 
     <h3>4. A documented, defensible process</h3>
 
@@ -129,14 +133,14 @@
       <li><strong>Upload your CV</strong> — drag a PDF or DOCX onto the tool at nullifycv.com</li>
       <li><strong>Choose your redaction mode</strong> — Standard PII, Bias Strip, Client Submission, or EEOC Blind Review</li>
       <li><strong>Download the anonymised file</strong> — for PDFs, you receive the original with black redaction bars drawn directly over the PII positions. The layout, fonts, and formatting are preserved.</li>
-      <li><strong>Download the audit log</strong> — a JSON file documenting every item redacted, with confidence scores. Useful for GDPR documentation.</li>
+      <li><strong>Download the workflow log</strong> — an application-generated JSON file listing detected items and confidence values. It can support internal recordkeeping after review.</li>
     </ol>
 
-    <p>The entire process takes under 30 seconds per CV. Because processing happens locally in your browser using pdf.js and pdf-lib, the tool is safe for sensitive corporate use — your candidates' data never leaves your device.</p>
+    <p>Processing time depends on your document and device. Because processing happens locally in your browser using pdf.js and pdf-lib, the tool is designed for local document processing — your candidates' data never leaves your device.</p>
 
     <div class="post-cta">
       <h3>Try NullifyCV free</h3>
-      <p>Anonymise a CV in under 30 seconds. No account, no uploads, no data stored.</p>
+      <p>Try basic CV redaction with no account. The redaction workflow processes the CV on your device.</p>
       <a href="/">Try the tool →</a>
     </div>
 
@@ -149,7 +153,7 @@
     <p>PDF and DOCX files are fully supported. For PDFs with a text layer, black redaction bars are drawn directly onto the original file preserving layout. Scanned PDFs (image-only) should be exported as DOCX first.</p>
 
     <h3>Can I process multiple CVs at once?</h3>
-    <p>The free tool processes one file at a time. NullifyCV Pro ($49/month) supports batch processing of up to 200 CVs at once, saved redaction profiles, and GDPR-annotated audit logs suitable for DPO filing.</p>
+    <p>Basic single-file redaction is free. Annual batch access (€49/year) supports unlimited processing with up to 200 CVs per batch, redaction settings, ZIP downloads and application-generated workflow logs.</p>
 
     <div class="post-disclaimer">
       <strong>Legal disclaimer:</strong> This article is for informational purposes only and does not constitute legal advice. GDPR and other regulatory requirements vary by jurisdiction and circumstance. Consult your legal counsel or Data Protection Officer for guidance specific to your organisation. · nullifycv.com
@@ -179,7 +183,7 @@
   <span aria-hidden="true">·</span>
   <a href="/terms.html">Terms</a>
   <span aria-hidden="true">·</span>
-  <small>No uploads · No storage · No tracking · GDPR-consistent · Not legal advice</small>
+  <small>Local CV processing · Analytics and error reporting disclosed · Supports data minimisation · Not legal advice</small>
 </footer>
 
 <script src="/posts.js"></script>

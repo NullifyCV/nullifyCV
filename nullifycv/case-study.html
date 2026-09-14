@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Case Study: How a Recruiting Agency Anonymised 847 CVs in One Quarter | NullifyCV</title>
-  <meta name="description" content="How a 12-person recruiting agency redacted 847 CVs client-side with NullifyCV — zero data exposure, full GDPR audit trail.">
-  <link rel="canonical" href="https://nullifycv.com/case-study.html">
-  <meta property="og:title" content="Case Study — NullifyCV">
-  <meta property="og:url" content="https://nullifycv.com/case-study.html">
+  <title>Example CV redaction workflow for recruiters | NullifyCV</title>
+  <meta name="description" content="An illustrative recruiter workflow for reviewing, redacting and sharing CVs with NullifyCV. Not a customer testimonial.">
+  <link rel="canonical" href="https://www.nullifycv.com/case-study.html">
+  <meta property="og:title" content="Example CV redaction workflow for recruiters | NullifyCV">
+  <meta property="og:description" content="An illustrative recruiter workflow for reviewing, redacting and sharing CVs. Not a customer testimonial.">
+  <meta property="og:url" content="https://www.nullifycv.com/case-study.html">
+  <meta property="og:type" content="article">
   <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -128,172 +130,16 @@
     </div>
   </div>
   <div class="offline-pill"><span class="pulse"></span><span>Processing locally — no uploads</span></div>
-</header>
-
-<div class="cs-wrap">
-
-  <div class="cs-tag">Case Study · Recruiting Agency · Netherlands</div>
-  <h1 class="cs-title">How a recruiting agency anonymised 847 CVs in one quarter — with zero data leaving their network</h1>
-  <div class="cs-meta">
-    <span>🏢 12-person recruiting agency</span>
-    <span>📍 Netherlands</span>
-    <span>⏱ Q1 2026</span>
-    <span>📋 Blind hiring + GDPR compliance</span>
-  </div>
-  <div class="cs-rule"></div>
-
-  <!-- Stats -->
-  <div class="cs-stats">
-    <div class="cs-stat"><div class="cs-stat-val">847</div><div class="cs-stat-label">CVs processed in one quarter</div></div>
-    <div class="cs-stat"><div class="cs-stat-val">0</div><div class="cs-stat-label">Bytes of candidate data transmitted</div></div>
-    <div class="cs-stat"><div class="cs-stat-val">28s</div><div class="cs-stat-label">Average processing time per CV</div></div>
-    <div class="cs-stat"><div class="cs-stat-val">100%</div><div class="cs-stat-label">Of batches include audit log</div></div>
-  </div>
-
-  <div class="cs-body">
-
-    <h2>Background</h2>
-
-    <p>A 12-person specialist recruiting agency based in the Netherlands had been building its blind hiring practice for two years. Their clients — primarily mid-size technology companies — were increasingly asking for evidence that candidate screening was free from demographic bias, and their own HR director had flagged a GDPR concern: forwarding complete CVs to multiple internal reviewers was creating unnecessary personal data exposure.</p>
-
-    <p>The agency was manually redacting CVs before panel distribution — a consultant would open each file in Word or Adobe, manually black out the name, address, and phone number, and save a new copy. The process was inconsistent, time-consuming, and produced no documentation that the redaction had actually occurred.</p>
-
-    <div class="cs-quote">
-      <div class="cs-quote-text">"We were spending 8-10 minutes per CV on manual redaction, and even then we weren't confident we'd caught everything. One of our consultants missed a LinkedIn URL in a batch of 30 CVs and we only noticed because a client mentioned the candidate's name in a meeting. That was the moment we knew we needed a proper solution."</div>
-      <div class="cs-quote-attr">Head of Operations, recruiting agency (anonymised)</div>
-    </div>
-
-    <h2>The requirements</h2>
-
-    <p>The agency evaluated several approaches. Their requirements were specific:</p>
-    <ul>
-      <li><strong>No file uploads</strong> — their clients' CVs contain sensitive personal data; uploading to a third-party server would require a Data Processing Agreement and create additional GDPR obligations</li>
-      <li><strong>Batch capability</strong> — they needed to process 30-50 CVs at once for larger hiring rounds</li>
-      <li><strong>Audit trail</strong> — their DPO required documented evidence of what was redacted from each file</li>
-      <li><strong>Original PDF layout preserved</strong> — panel members needed to see the formatting of the CV, not a plain text version</li>
-      <li><strong>Dutch CV support</strong> — many candidates used Dutch formats including 06 phone numbers and 1234 AB postcodes</li>
-    </ul>
-
-    <h2>Why NullifyCV</h2>
-
-    <p>After evaluating three alternatives — a PDF editor with manual redaction, a server-based anonymisation API, and NullifyCV — the agency chose NullifyCV for one primary reason: the zero-transmission architecture.</p>
-
-    <div class="cs-callout">
-      <p>Because NullifyCV processes files client-side, the agency does not act as a data processor when using the tool — and NullifyCV does not act as a data processor either. No Data Processing Agreement was required. The candidate's personal data never left the agency's own devices.</p>
-    </div>
-
-    <p>The server-based API they evaluated would have required a DPA, added a third party to their data flow, and created a new breach notification obligation if that vendor suffered a security incident. The risk profile was unacceptable for a firm handling sensitive candidate data.</p>
-
-    <h2>Implementation</h2>
-
-    <p>The agency standardised on two redaction profiles:</p>
-
-    <table class="cs-table">
-      <thead>
-        <tr><th>Profile</th><th>Used for</th><th>Targets removed</th></tr>
-      </thead>
-      <tbody>
-        <tr><td><strong>Client Submission</strong></td><td>CVs sent to client hiring managers</td><td>Name, email, phone, LinkedIn, file metadata</td></tr>
-        <tr><td><strong>Bias Strip</strong></td><td>Internal panel review packs</td><td>All above + school names, graduation year, pronouns, location</td></tr>
-      </tbody>
-    </table>
-
-    <p>Their workflow for each hiring round:</p>
-
-    <div class="cs-workflow">
-      <div class="cs-step">
-        <div class="cs-step-left"><div class="cs-step-num">1</div><div class="cs-step-line"></div></div>
-        <div class="cs-step-right">
-          <div class="cs-step-title">Receive applications</div>
-          <div class="cs-step-body">Candidates submit CVs via email or job board. Files are saved to a local folder — never uploaded externally.</div>
-        </div>
-      </div>
-      <div class="cs-step">
-        <div class="cs-step-left"><div class="cs-step-num">2</div><div class="cs-step-line"></div></div>
-        <div class="cs-step-right">
-          <div class="cs-step-title">Batch process with NullifyCV Pro</div>
-          <div class="cs-step-body">The recruiter drops all CVs into the NullifyCV batch queue (up to 200 at once), selects the appropriate profile, and clicks Run. Processing takes approximately 28 seconds per file on average.</div>
-        </div>
-      </div>
-      <div class="cs-step">
-        <div class="cs-step-left"><div class="cs-step-num">3</div><div class="cs-step-line"></div></div>
-        <div class="cs-step-right">
-          <div class="cs-step-title">Download ZIP with audit log</div>
-          <div class="cs-step-body">The batch produces a ZIP file containing all redacted PDFs plus a JSON audit log documenting every PII item removed from every file.</div>
-        </div>
-      </div>
-      <div class="cs-step">
-        <div class="cs-step-left"><div class="cs-step-num">4</div><div class="cs-step-line"></div></div>
-        <div class="cs-step-right">
-          <div class="cs-step-title">Distribute to panel</div>
-          <div class="cs-step-body">Redacted PDFs are shared with the hiring panel. The audit log is filed with the agency's Records of Processing Activities.</div>
-        </div>
-      </div>
-      <div class="cs-step">
-        <div class="cs-step-left"><div class="cs-step-num">5</div><div class="cs-step-line"></div></div>
-        <div class="cs-step-right">
-          <div class="cs-step-title">Archive and delete</div>
-          <div class="cs-step-body">After the hiring decision, original CVs are deleted per the agency's 6-month retention policy. Because panel members only have the redacted versions, there's no need to track down and delete personal data from multiple inboxes.</div>
-        </div>
-      </div>
-    </div>
-
-    <h2>Results after one quarter</h2>
-
-    <p>In Q1 2026, the agency processed 847 CVs through NullifyCV across 23 active hiring rounds for 11 clients.</p>
-
-    <table class="cs-table">
-      <thead>
-        <tr><th>Metric</th><th>Before NullifyCV</th><th>With NullifyCV</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>Time per CV redaction</td><td>8-10 minutes</td><td>~28 seconds</td></tr>
-        <tr><td>Consistency of redaction</td><td>Variable (manual)</td><td>Systematic (automated)</td></tr>
-        <tr><td>Audit documentation</td><td>None</td><td>JSON log per batch</td></tr>
-        <tr><td>Data transmitted to third parties</td><td>0 bytes (manual)</td><td>0 bytes</td></tr>
-        <tr><td>DPA required</td><td>N/A</td><td>No</td></tr>
-        <tr><td>Missed PII incidents</td><td>3 known incidents</td><td>0</td></tr>
-      </tbody>
-    </table>
-
-    <div class="cs-quote">
-      <div class="cs-quote-text">"The time saving is significant — but what really matters is the audit log. Our DPO can now see exactly what was redacted from every CV we processed. When a client asks us to demonstrate our GDPR compliance, we have a documented answer. That wasn't possible before."</div>
-      <div class="cs-quote-attr">Head of Operations, recruiting agency (anonymised)</div>
-    </div>
-
-    <h2>GDPR implications</h2>
-
-    <p>The agency's DPO noted three specific GDPR improvements from the implementation:</p>
-
-    <ul>
-      <li><strong>Data minimisation (Article 5(1)(c)):</strong> Panel members receive only the data necessary to assess candidates — skills, experience, and qualifications — with direct identifiers removed</li>
-      <li><strong>Records of Processing Activities (Article 30):</strong> The batch audit log provides documented evidence of systematic data minimisation for the RoPA</li>
-      <li><strong>Right to erasure (Article 17):</strong> Because panel members hold no personal data, erasure requests can be fulfilled by deleting the original CV from the recruiter's system — no need to track down copies across multiple inboxes</li>
-    </ul>
-
-    <h2>Key takeaway</h2>
-
-    <p>The agency's experience demonstrates that blind hiring and GDPR compliance are not competing priorities — they're complementary. A systematic redaction workflow addresses both simultaneously: it removes bias signals for fairer screening and limits personal data distribution for regulatory compliance.</p>
-
-    <p>The zero-transmission architecture was the decisive factor. By processing files client-side, the agency avoided creating a new vendor relationship with GDPR implications — and maintained complete control over candidate data throughout the process.</p>
-
-    <div class="cs-cta">
-      <h3>Ready to implement blind hiring in your organisation?</h3>
-      <p>NullifyCV Pro supports batch processing of up to 200 CVs at once, with GDPR-annotated audit logs your DPO can file directly. Files never leave your browser on any plan.</p>
-      <div class="cs-cta-btns">
-        <a href="/" class="btn-primary">Try the free tool →</a>
-        <a href="/pro.html" class="btn-secondary">See Pro plans</a>
-      </div>
-    </div>
-
-    <div class="cs-disclaimer">
-      <strong>Note:</strong> This case study is based on a composite of typical NullifyCV use cases and illustrates realistic outcomes for a recruiting agency of this size. Quotes and specific metrics are representative rather than attributed to a named organisation. Results may vary depending on CV volume, file types, and redaction profiles used.
-    </div>
-
-  </div>
-</div>
-
-<footer class="foot" role="contentinfo">
+</header><main style="max-width:850px;margin:50px auto;padding:24px;line-height:1.8">
+<p>Illustrative workflow · Not a customer testimonial</p><h1>How a recruiting team can prepare CVs for sharing</h1>
+<p>This example explains a possible workflow. It does not report measured customer results or quote a real customer.</p>
+<h2>1. Choose a source CV</h2><p>Select a PDF or DOCX on your device. Keep the original under your organisation's own access and retention controls.</p>
+<h2>2. Choose what to remove</h2><p>Select a redaction mode and review detected identifiers. Keep work history and qualifications that are useful to the reviewer. Detection can miss information or select text you wish to retain.</p>
+<h2>3. Review the export</h2><p>Open the generated document before sharing. Check contact details, names, images and identifying contextual information. A redacted CV may still identify a candidate.</p>
+<h2>4. Process a shortlist</h2><p>Annual batch access processes up to 200 files per batch and provides a ZIP and an application-generated workflow log. Review individual outputs; a log does not certify completeness or legal compliance.</p>
+<h2>5. Apply your retention policy</h2><p>Include original and redacted copies in your data-handling assessment. Browser-local processing does not remove the recruiting organisation's own responsibilities.</p>
+<p><a class="ncv-buy" href="/">Try the tool</a><a href="/pro.html">See €2.99 single-CV and €49 annual batch access</a></p>
+</main><footer class="foot" role="contentinfo">
   <span class="foot-brand">nullifycv.com</span>
   <span aria-hidden="true">·</span>
   <a href="/about.html">How it works</a>
@@ -310,7 +156,7 @@
   <span aria-hidden="true">·</span>
   <a href="/terms.html">Terms</a>
   <span aria-hidden="true">·</span>
-  <small>No uploads · No storage · No tracking · GDPR-consistent · Not legal advice</small>
+  <small>Local CV processing · Analytics and error reporting disclosed · Supports data minimisation · Not legal advice</small>
 </footer>
 
 <script defer src="/_vercel/insights/script.js"></script>

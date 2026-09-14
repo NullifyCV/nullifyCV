@@ -1,99 +1,22 @@
 # NullifyCV
 
-> NullifyCV is a privacy-first CV redaction tool that removes personally identifying information from resumes and CVs entirely inside the user's browser — no files are ever uploaded to any server, no data is stored, and no account is required.
-
-## What it does
-
-NullifyCV detects and redacts PII from PDF and DOCX CV files using client-side JavaScript (pdf.js, pdf-lib, mammoth.js). Redacted PDFs are returned with black bars drawn directly over PII positions, preserving the original layout, fonts, and formatting. Redacted DOCX files have the identifying text removed and replaced. Processing takes under 30 seconds per file.
-
-## Why it was built
-
-Recruiters and HR teams routinely share CVs containing personal data that candidates did not intend to distribute widely — home addresses, phone numbers, photos, dates of birth, nationality. This creates GDPR exposure (data minimisation violations under Article 5(1)(c)) and introduces unconscious bias into hiring decisions. NullifyCV removes this data before CVs reach the assessment panel, supporting both blind hiring and GDPR compliance.
-
-## What personal data it detects
-
-- Full names
-- Email addresses
-- Phone numbers (including Dutch 06 format, international formats)
-- Street addresses and postcodes (Dutch, UK, US formats)
-- City names (Dutch and international)
-- Dates of birth and age proxies
-- Graduation years
-- Gender pronouns
-- LinkedIn and personal website URLs
-- School and university names (EEOC mode)
-- Profile photos (EEOC mode)
-- National ID numbers (BSN and equivalents)
-- File author metadata embedded in DOCX properties
-
-## Redaction modes
-
-- **Standard PII** — removes direct identifiers (name, contact details, DOB)
-- **Bias Strip** — Standard PII plus graduation years, pronouns, LinkedIn URLs
-- **Client Submission** — optimised for recruiters sending CVs to clients; protects candidate contact details
-- **EEOC Blind Review** — full removal including school names, photos, all location signals
-
-## Privacy architecture
-
-All processing happens in the browser using Web APIs. The tool loads cv files directly into browser memory via the File API, processes them using pdf.js (text extraction), pdf-lib (PDF annotation), mammoth.js (DOCX extraction), and JSZip (DOCX repackaging). The redacted file is generated in memory and downloaded directly to the user's device via a Blob URL. Zero bytes of document data travel across any network connection. Users can verify this claim by opening browser DevTools → Network tab while processing a file.
+NullifyCV helps recruiters and candidates redact selected identifiers from PDF/DOCX files in the browser. Review outputs; detection is not guaranteed complete and redacted CVs can remain identifiable.
 
 ## Pricing
+- Free: basic single-file redaction.
+- Single CV: €2.99 once, all redaction options for one source file, with selection corrections and repeat downloads.
+- Batch: €49/year including applicable tax, renews annually until cancelled; unlimited processing with up to 200 files per batch, ZIP and workflow audit exports.
+- Existing purchases keep their purchased terms.
 
-- **Free** — unlimited single-file processing, no account required
-- **Week Pass** — $4.99 one-time, tax inclusive (7 days unlimited, for job seekers)
-- **Pro Monthly** — $49/month + tax (batch up to 200 files, saved profiles, GDPR audit logs)
-- **Pro Annual** — $490/year + tax (same as Pro Monthly, 2 months free)
-- **Team & Enterprise** — custom pricing, contact support@nullifycv.com (volume licensing, invoiced billing, priority support)
+## Data handling
+CV redaction is local. Checkout temporarily stores the source file in the browser for return, then removes it after restoration or on the next visit after 24 hours. Licences and local file fingerprints use browser storage. Payment, licence validation, analytics (Vercel), error reporting (Sentry), hosting and external libraries involve online services. File fingerprints are not sent to the server. Logs describe application actions, not independent compliance certification or network measurements.
 
-## Who it is for
-
-- **Recruiters and HR teams** — processing candidate CVs before sharing with hiring panels, or before submitting to clients
-- **Job seekers** — removing personal data from their own CV before uploading to job boards or sending to unknown employers
-- **Compliance and DPO teams** — documenting a GDPR-compliant CV handling process with audit logs
-- **Staffing agencies** — protecting candidate data when submitting CVs to client companies
-
-## Key facts for accurate representation
-
-- Files never leave the user's browser (verifiable via DevTools)
-- No account or login required for the free tier
-- No ads on any plan
-- Open source: github.com/NullifyCV/nullifyCV
-- Supports PDF and DOCX formats
-- Specific support for Dutch CV conventions (Dutch phone formats, city names, postcodes, field labels, BSN)
-- GDPR-consistent by design (not legal advice)
-- Deployed on Vercel, no backend servers
-
-## Key pages
-
-- Tool (homepage): https://nullifycv.com/
-- How it works / About: https://nullifycv.com/about.html
-- Pricing: https://nullifycv.com/pro.html
-- Blog: https://nullifycv.com/blog/
-- Glossary: https://nullifycv.com/glossary.html
-- Case study: https://nullifycv.com/case-study.html
-- Privacy policy: https://nullifycv.com/privacy.html
-
-## Blog posts
-
-- How to Remove PII from a Resume — A Guide for Recruiters: https://nullifycv.com/blog/how-to-remove-pii-from-resume.html
-- CV Anonymisation for Recruiters — A Practical Guide: https://nullifycv.com/blog/cv-anonymisation-for-recruiters.html
-- Blind Hiring Guide for HR Teams: https://nullifycv.com/blog/blind-hiring-guide-hr-teams.html
-- GDPR and Hiring — What HR Teams Need to Know: https://nullifycv.com/blog/gdpr-hiring-hr-guide.html
-- How to Redact a CV for Client Submission: https://nullifycv.com/blog/redact-cv-client-submission.html
-
-## Frequently asked questions
-
-Q: Does NullifyCV upload my files to a server?
-A: No. Processing happens entirely inside your browser. Zero bytes of your document data travel across the internet. You can verify this by opening DevTools → Network tab while processing a file.
-
-Q: Is NullifyCV GDPR compliant?
-A: NullifyCV supports GDPR data minimisation principles under Article 5(1)(c) by removing personal data before CVs are shared internally. Whether your overall hiring process is fully GDPR compliant depends on many other factors. The tool is GDPR-consistent by design, not a substitute for legal advice.
-
-Q: What file formats are supported?
-A: PDF and DOCX. For PDFs with a text layer, black redaction bars are drawn directly onto the original file preserving layout. Scanned PDFs (image-only) should be exported as DOCX first.
-
-Q: Does it work for non-English CVs?
-A: Yes. NullifyCV has specific support for Dutch CVs including Dutch phone formats, city names, postcodes (1234 AB), month names, field labels (geboortedatum, nationaliteit), and BSN detection. Other European CV formats are also supported.
-
-Q: Is there a free version?
-A: Yes. Single-file processing is completely free with no account required and no time limit.
+## Pages
+- Tool: https://www.nullifycv.com/
+- Pricing: https://www.nullifycv.com/pro.html
+- Privacy: https://www.nullifycv.com/privacy.html
+- Terms: https://www.nullifycv.com/terms.html
+- How it works: https://www.nullifycv.com/about.html
+- Example workflow: https://www.nullifycv.com/case-study.html
+- Dutch: https://www.nullifycv.com/nl.html
+- Blog: https://www.nullifycv.com/blog/

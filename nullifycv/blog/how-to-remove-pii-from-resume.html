@@ -4,8 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>How to Remove PII from a Resume — A Guide for Recruiters | NullifyCV</title>
-  <meta name="description" content="Learn how to remove personally identifiable information from resumes for blind hiring. Free, GDPR-consistent method that works in your browser. No uploads needed.">
-  <link rel="canonical" href="https://nullifycv.com/blog/how-to-remove-pii-from-resume.html">
+  <meta name="description" content="Learn how to redact selected personal information from resumes for privacy-conscious sharing and blind review in your browser.">
+  <link rel="canonical" href="https://www.nullifycv.com/blog/how-to-remove-pii-from-resume.html">
+  <meta property="og:title" content="How to Remove PII from a Resume — A Guide for Recruiters | NullifyCV">
+  <meta property="og:description" content="Learn how to redact selected personal information from resumes for privacy-conscious sharing and blind review.">
+  <meta property="og:url" content="https://www.nullifycv.com/blog/how-to-remove-pii-from-resume.html">
+  <meta property="og:type" content="article">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="/style.css">
@@ -78,7 +82,7 @@
     <p>This guide explains what PII is in the context of hiring, why removing it matters legally and ethically, and how to do it quickly using a free, browser-based tool that never uploads your files to any server.</p>
 
     <div class="blog-callout">
-      <p>📌 In a hurry? Skip to the tool: <a href="/" style="color:var(--green-dark);text-decoration:underline;">nullifycv.com</a> — upload a PDF or DOCX, select your redaction targets, download the redacted file. Free, no account needed, files never leave your browser.</p>
+      <p>📌 In a hurry? Skip to the tool: <a href="/" style="color:var(--green-dark);text-decoration:underline;">nullifycv.com</a> — upload a PDF or DOCX, select your redaction targets, download the redacted file. Basic redaction is free with no account; CV processing stays in your browser.</p>
     </div>
 
     <h2>What is PII in a resume context?</h2>
@@ -110,7 +114,7 @@
 
     <h3>3. Right to erasure becomes easier to manage</h3>
 
-    <p>Under GDPR Article 17, candidates have the right to request deletion of their personal data. If you've forwarded a full resume to ten people internally, honouring an erasure request becomes complex. A de-identified copy shared with the panel contains no personal data — making erasure requests simpler to manage.</p>
+    <p>Under GDPR Article 17, candidates have the right to request deletion of their personal data. If you've forwarded a full resume to ten people internally, honouring an erasure request becomes complex. A de-identified copy shared with the panel may still contain identifying information — making erasure requests simpler to manage.</p>
 
     <h3>4. EEOC compliance in the US</h3>
 
@@ -159,14 +163,14 @@
       <li><strong>Upload your resume</strong> — drag a PDF or DOCX onto the tool at nullifycv.com</li>
       <li><strong>Choose your redaction mode</strong> — Standard PII, Bias Strip, or EEOC Blind Review</li>
       <li><strong>Download the redacted file</strong> — for PDFs, you receive the original with black redaction bars drawn over the PII positions. The layout, fonts, and formatting are preserved.</li>
-      <li><strong>Download the audit log</strong> — a JSON file documenting every item redacted, with confidence scores. Useful for EEOC documentation.</li>
+      <li><strong>Download the workflow log</strong> — an application-generated JSON file listing detected items and confidence values. Review it before relying on it for internal records.</li>
     </ol>
 
-    <p>The entire process takes under 30 seconds per resume. Because processing happens locally in your browser using pdf.js and mammoth.js, the tool is safe for sensitive corporate use — your candidates' data never leaves your device.</p>
+    <p>Processing time depends on your document and device. Because processing happens locally in your browser using pdf.js and mammoth.js, the tool is designed for local document processing — your candidates' data never leaves your device.</p>
 
     <div class="blog-cta">
       <h3>Try NullifyCV free</h3>
-      <p>Remove PII from a resume in under 30 seconds. No account, no uploads, no data stored.</p>
+      <p>Try basic resume redaction with no account. The redaction workflow processes the resume on your device.</p>
       <a href="/">Redact a resume now →</a>
     </div>
 
@@ -179,7 +183,7 @@
     <p>NullifyCV supports PDF and DOCX files. For PDFs with a text layer, black redaction bars are drawn directly onto the original file preserving layout. Scanned PDFs (image-only) should be exported as DOCX first.</p>
 
     <h3>Can I process multiple resumes at once?</h3>
-    <p>The free tool processes one file at a time. NullifyCV Pro ($9/month) supports batch processing of up to 200 resumes at once, saved redaction profiles, and GDPR-annotated audit logs.</p>
+    <p>Basic single-file redaction is free. Annual batch access (€49/year) supports unlimited processing with up to 200 resumes per batch, redaction settings, ZIP downloads and application-generated workflow logs.</p>
 
     <h3>Is the tool open source?</h3>
     <p>Yes — the full source code is available on <a href="https://github.com/NullifyCV/nullifyCV" target="_blank" rel="noopener" style="color:var(--green-dark);">GitHub</a>. You can audit every line that handles your documents.</p>
@@ -208,7 +212,7 @@
   <span aria-hidden="true">·</span>
   <a href="/terms.html">Terms</a>
   <span aria-hidden="true">·</span>
-  <small>No uploads · No storage · No tracking · GDPR-consistent · Not legal advice</small>
+  <small>Local CV processing · Analytics and error reporting disclosed · Supports data minimisation · Not legal advice</small>
 </footer>
 
 <div id="post-nav-inject"></div>

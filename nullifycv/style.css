@@ -956,3 +956,6 @@ body {
   .imgpick-actions { padding: 12px 16px; }
   .imgpick-btn { font-size: 12px; padding: 8px 12px; }
 }
+
+/* Release: direct purchase controls */
+.ncv-buy{display:block;background:#204e38;color:white!important;border:0;border-radius:8px;padding:13px 18px;text-align:center;text-decoration:none;font:inherit;font-weight:700;cursor:pointer;margin:10px 0;width:100%;box-sizing:border-box}.ncv-secondary{background:#e5eee8;color:#204e38!important}.ncv-small{font-size:12px;line-height:1.6}.ncv-prices{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.ncv-prices section{padding:24px;border:1px solid #cdded2;border-radius:14px}.ncv-prices strong{font-size:26px}.pro-wrap p{line-height:1.65}.pro-wrap h2{margin-top:24px}@media(max-width:720px){.ncv-prices{grid-template-columns:1fr}}

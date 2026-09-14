@@ -4,13 +4,12 @@
 
 > Your CV. Your browser. Nobody else's business.
 
-[![Live site](https://img.shields.io/badge/live-nullifycv.com-1e4d35?style=flat-square)](https://nullifycv.com)
+[![Live site](https://img.shields.io/badge/live-nullifycv.com-1e4d35?style=flat-square)](https://www.nullifycv.com)
 [![License: MIT](https://img.shields.io/badge/license-MIT-7aaa8a?style=flat-square)](LICENSE)
 [![Processing: Client-side only](https://img.shields.io/badge/processing-client--side%20only-a8c5b0?style=flat-square)](#privacy-architecture)
-[![Security Headers: A](https://img.shields.io/badge/security%20headers-A-2d6b4a?style=flat-square)](https://securityheaders.com/?q=nullifycv.com)
-[![No third-party fingerprinting](https://img.shields.io/badge/no-fingerprinting-7aaa8a?style=flat-square)](https://nullifycv.com/privacy.html)
+[![Privacy details](https://img.shields.io/badge/privacy-data%20flows-2d6b4a?style=flat-square)](https://www.nullifycv.com/privacy.html)
 
-[**Try it now →**](https://nullifycv.com) · [About](https://nullifycv.com/about.html) · [Pricing](https://nullifycv.com/pro.html) · [Blog](https://nullifycv.com/blog/)
+[**Try it now →**](https://www.nullifycv.com) · [About](https://www.nullifycv.com/about.html) · [Pricing](https://www.nullifycv.com/pro.html) · [Blog](https://www.nullifycv.com/blog/)
 
 ---
 
@@ -18,7 +17,7 @@
 
 NullifyCV removes personally identifiable information (PII) and bias signals from CVs and resumes — name, photo, contact details, date of birth, graduation year, school names, and more — entirely inside your browser.
 
-**The unusual part:** files are never uploaded. There is no backend that can receive your documents. Processing happens in browser memory using [pdf.js](https://mozilla.github.io/pdf.js/), [pdf-lib](https://pdf-lib.js.org/), and [mammoth.js](https://github.com/mwilliamson/mammoth.js). You can verify this by opening DevTools → Network tab during processing — you will see zero outbound requests containing file data.
+**The unusual part:** the redaction workflow does not upload CV files. Processing happens in browser memory using [pdf.js](https://mozilla.github.io/pdf.js/), [pdf-lib](https://pdf-lib.js.org/), and [mammoth.js](https://github.com/mwilliamson/mammoth.js). Payments, licence validation, analytics and error reporting use online services as described in the privacy policy.
 
 This isn't a privacy claim in a policy. It's an architectural fact you can audit, both in this repository and in your browser.
 
@@ -28,7 +27,7 @@ This isn't a privacy claim in a policy. It's an architectural fact you can audit
 
 A privacy claim from a closed-source SaaS is "trust us." A privacy claim from an open-source client-side tool is "here's the code, run it yourself, watch the network tab."
 
-The entire processing pipeline is in this repository. Every line that touches your file is auditable. If you don't trust nullifycv.com, you can clone the repo and run the tool locally with no internet connection — it works exactly the same.
+The document-processing pipeline is in this repository and can be audited. You can also self-host the static redaction interface for local document processing. Checkout, paid licence validation, analytics and error reporting are online features and do not work identically in a fully offline copy.
 
 This is the difference between marketed privacy and verifiable privacy.
 
@@ -97,9 +96,9 @@ Every processed file produces a downloadable JSON audit log documenting:
 - Number of items redacted (broken down by type)
 - Number of images redacted
 - Active redaction mode and keys
-- Confirmation: 0 server transmissions
+- Processing location and an explicit note that the application does not measure network traffic
 
-Suitable for attaching to GDPR Records of Processing Activities or EEOC compliance documentation.
+Useful as application-generated workflow documentation. It is not an independent compliance certificate, bias audit or complete network measurement.
 
 ---
 
@@ -108,20 +107,20 @@ Suitable for attaching to GDPR Records of Processing Activities or EEOC complian
 | Component | Technology | Privacy implication |
 |---|---|---|
 | PDF text + image extraction | pdf.js 3.11.174 | Reads file in browser memory only |
-| PDF redaction | pdf-lib 1.17.1 | Draws bars on original bytes; never transmitted |
+| PDF redaction | pdf-lib 1.17.1 | Draws bars in the browser; the redaction workflow does not upload the file |
 | DOCX extraction | mammoth 1.6.0 | Pure JS, text in JS heap only |
-| Hosting | Vercel CDN (static files) | No server-side code path exists for file data |
+| Hosting and APIs | Vercel | Static pages plus payment and licence functions; no server-side CV redaction |
 | Output | Blob URL, revoked after download | Local file transfer only |
 | External scripts | SRI hashes on every CDN script | Tampered libraries blocked by browser |
-| Headers | CSP, HSTS, X-Frame-Options, Referrer-Policy | A rating on [Security Headers](https://securityheaders.com/?q=nullifycv.com) |
+| Headers | CSP, X-Frame-Options, Referrer-Policy | Limits permitted resources and framing |
 
-**0 bytes of document data are ever transmitted to any server.**
+**CV files and extracted document text are not sent by the redaction workflow.**
 
 ### How to verify
 
 1. Open DevTools (F12) → Network tab
 2. Drop a file onto NullifyCV and process it
-3. Filter by `Fetch/XHR` — observe zero outbound requests containing document data
+3. Inspect `Fetch/XHR` request contents — the redaction workflow does not send the CV file or extracted document text
 4. Or read the source. Start with [`app.js`](nullifycv/app.js) — the entire processing pipeline.
 
 ---
@@ -134,8 +133,8 @@ NullifyCV supports the following data protection and equal-opportunity standards
 |---|---|---|
 | GDPR | Art. 5(1)(c) — Data minimisation | Removes non-essential PII before internal distribution |
 | GDPR | Art. 5(1)(b) — Purpose limitation | Anonymised copy limits data to assessment scope |
-| GDPR | Art. 17 — Right to erasure | Panel holds no personal data; single point of deletion |
-| GDPR | Art. 4(8) — Data processor | NullifyCV is **not** a processor; no DPA required |
+| GDPR | Art. 17 — Right to erasure | Redaction can reduce the shared data footprint; redacted copies may remain personal data |
+| GDPR | Processing roles | Assess each data flow, including payments, licences, analytics, support and local CV processing |
 | UK GDPR | Art. 5(1)(c) | Same as GDPR |
 | CCPA / CPRA | §1798.121 | Removes zip codes and precise location |
 | PIPEDA | Data minimisation principle | Same approach as GDPR |
@@ -143,7 +142,7 @@ NullifyCV supports the following data protection and equal-opportunity standards
 | IL BIPA | §15 — Biometric data | Profile photos removed in Bias / Client / EEOC modes |
 | EEOC / Title VII | Blind review | Removes name, location, demographic signals |
 | ADEA | Age discrimination | Removes graduation years and age proxies |
-| NYC Local Law 144 | Bias audit documentation | Audit log supports documented blind review |
+| NYC Local Law 144 | Independent bias-audit duties may apply to covered tools; NullifyCV's workflow log is not that audit |
 
 Always consult your DPO or legal counsel for formal compliance assessment.
 
@@ -156,8 +155,8 @@ Always consult your DPO or legal counsel for formal compliance assessment.
 - **PDF authoring**: [pdf-lib](https://pdf-lib.js.org/) 1.17.1
 - **DOCX extraction**: [mammoth.js](https://github.com/mwilliamson/mammoth.js) 1.6.0
 - **ZIP packaging** (batch mode): [JSZip](https://stuk.github.io/jszip/) 3.10.1
-- **Hosting**: [Vercel](https://vercel.com) (static files only)
-- **Payments**: [Stripe](https://stripe.com) Payment Links (no card data ever touches NullifyCV)
+- **Hosting and API functions**: [Vercel](https://vercel.com)
+- **Payments**: [Stripe](https://stripe.com) Checkout (Stripe handles card details)
 - **Analytics**: [Vercel Web Analytics](https://vercel.com/docs/analytics) (cookie-free, GDPR-friendly)
 
 ---
@@ -176,7 +175,7 @@ python -m http.server 8080
 npx serve .
 ```
 
-Open `http://localhost:8080` in your browser. The tool runs offline once the page is loaded — you can disconnect from the internet at this point and it will still work.
+Open `http://localhost:8080` in your browser. Local document processing can continue after required libraries load, but paid access requires online licence validation and operational services may still make network requests.
 
 ---
 
@@ -186,7 +185,7 @@ Open `http://localhost:8080` in your browser. The tool runs offline once the pag
 nullifycv/
 ├── index.html              # Main tool / homepage
 ├── about.html              # How it works (with FAQ + demo)
-├── pro.html                # Pricing — Stripe payment links
+├── pro.html                # Optional pricing details
 ├── success.html            # Post-payment licence activation
 ├── glossary.html           # HR privacy & blind hiring terminology
 ├── case-study.html         # Hypothetical implementation case study
@@ -198,6 +197,8 @@ nullifycv/
 ├── us.html                 # International SEO landing pages
 │
 ├── app.js                  # Processing engine — pdf.js + pdf-lib + mammoth
+├── checkout.js             # Direct checkout, local work restoration and access checks
+├── api/                    # Stripe checkout and signed-licence functions
 ├── posts.js                # Blog post registry
 ├── style.css               # Brand stylesheet
 ├── llms.txt                # Plain-text site description for LLM crawlers
@@ -216,13 +217,25 @@ nullifycv/
 
 ## Deploying
 
-**Vercel (recommended):** connect repo, set Root Directory to `nullifycv`. No build command. Vercel handles HTTPS, CDN, and analytics out of the box.
+**Vercel (recommended):** connect the repo, set Root Directory to `nullifycv`, and leave the build command empty. Vercel serves the static pages and auto-detects `api/*.js` as functions.
+
+Set these production environment variables before enabling the new checkout buttons:
+
+| Variable | Purpose |
+|---|---|
+| `LICENCE_SIGNING_SECRET` | Random secret of at least 32 characters used to sign access records |
+| `STRIPE_SECRET_KEY` | Stripe secret key used only by server functions |
+| `STRIPE_SINGLE_PRICE_ID` | Active one-time EUR price: €2.99, tax behaviour set to inclusive |
+| `STRIPE_ANNUAL_PRICE_ID` | Active recurring EUR price: €49.00 every year, tax behaviour set to inclusive |
+| `PUBLIC_SITE_URL` | `https://www.nullifycv.com` |
+
+Checkout fails closed if a configured new price is inactive, has the wrong amount, currency, tax behaviour or billing interval. Existing signed v1 licences continue to validate through their original expiry, but old unbound Checkout Session IDs cannot issue new access. Configure the Stripe customer portal for annual subscribers and set the public Terms URL before launch. Never commit real keys or secrets.
 
 **Cloudflare Pages:** connect repo, no build command, output directory `nullifycv`.
 
 **Netlify:** drag `nullifycv/` folder to [app.netlify.com/drop](https://app.netlify.com/drop).
 
-**Self-hosted:** any static file server works (nginx, Apache, Caddy). Make sure `Content-Security-Policy` headers are set if you want the same A rating as the production deployment — see [`vercel.json`](nullifycv/vercel.json) for the CSP we use.
+**Self-hosted:** any static file server works for the public pages and free local redaction. Paid access additionally needs compatible server functions and environment variables. See [`vercel.json`](vercel.json) for the deployed security headers.
 
 ---
 
@@ -233,20 +246,18 @@ nullifycv/
 - pdf-lib black-bar redaction preserving original layout
 - **Embedded photo detection and redaction in PDFs** (May 2026)
 - Dutch CV support — 06 numbers, postcodes, cities, BSN
-- Four-tier pricing (free → $4.99 Week Pass → $49 Pro → Team & Enterprise on request)
-- Stripe payment integration with localStorage licence activation
+- Three offers (free basic redaction → €2.99 Single CV → €49/year annual batch access)
+- Direct Stripe Checkout with signed browser-stored licences
 - 10 international SEO landing pages
 - Globe language switcher across all pages
-- A-rated security headers (CSP + SRI + X-Frame-Options + Referrer-Policy + Permissions-Policy)
+- CSP, SRI, X-Frame-Options, Referrer-Policy and Permissions-Policy configuration
 - llms.txt + JSON-LD structured data for LLM and search engine discoverability
 - Blog infrastructure with prev/next + related posts
 - Glossary of 30+ HR privacy and blind hiring terms
 - Vercel custom event tracking (file uploads, processing, checkout clicks)
 
 ### In progress / planned
-- Batch processing — up to 200 files at once with combined audit ZIP
-- Saved redaction profiles (Pro tier)
-- DPO compliance report as PDF export (Pro tier)
+- Automated purchase recovery and device transfer
 - DOCX-to-DOCX output preserving original formatting
 - Scanned PDF support via in-browser OCR (Tesseract.js)
 - Browser extension for direct CV redaction from any web page

@@ -6,7 +6,7 @@ const BLOG_POSTS = [
   {
     slug:        'how-to-remove-pii-from-resume',
     title:       'How to Remove PII from a Resume — A Guide for Recruiters',
-    description: 'Learn how to remove personally identifiable information from resumes for blind hiring. Free, GDPR-consistent method that works in your browser.',
+    description: 'Learn how to redact selected personal information from resumes for blind review using a browser-based workflow.',
     date:        '2026-05-01',
     dateLabel:   'May 2026',
     lang:        'en',
@@ -19,7 +19,7 @@ const BLOG_POSTS = [
   {
     slug:        'cv-anonymisation-for-recruiters',
     title:       'CV Anonymisation for Recruiters — A Practical Guide',
-    description: 'Learn how to anonymise CVs for blind hiring as a recruiter. Free tool, GDPR-consistent, files never leave your browser.',
+    description: 'Learn how to redact selected CV details for blind review, client sharing and a smaller personal-data footprint.',
     date:        '2026-05-08',
     dateLabel:   'May 2026',
     lang:        'en',
@@ -32,7 +32,7 @@ const BLOG_POSTS = [
   {
     slug:        'blind-hiring-guide-hr-teams',
     title:       'Blind Hiring Guide for HR Teams — What It Is and How to Do It',
-    description: 'A practical guide to blind hiring for HR teams. What to anonymise, how to run structured blind review, and how to document the process for EEOC compliance.',
+    description: 'A practical guide to blind hiring for HR teams: what to redact, how to review the result and how to document the workflow.',
     date:        '2026-05-15',
     dateLabel:   'May 2026',
     lang:        'en',
@@ -45,7 +45,7 @@ const BLOG_POSTS = [
   {
     slug:        'gdpr-hiring-hr-guide',
     title:       'GDPR and Hiring — What HR Teams Need to Know',
-    description: 'How GDPR affects your hiring process. Data minimisation, purpose limitation, right to erasure — and how resume redaction supports compliant recruitment.',
+    description: 'How GDPR principles affect hiring, and where resume redaction can support a broader data-minimisation workflow.',
     date:        '2026-05-22',
     dateLabel:   'May 2026',
     lang:        'en',
@@ -58,7 +58,7 @@ const BLOG_POSTS = [
   {
     slug:        'redact-cv-client-submission',
     title:       'How to Redact a CV for Client Submission — A Recruiter\'s Guide',
-    description: 'How to redact a candidate\'s CV before sending it to a client. Protect candidate data, prevent poaching, and stay GDPR-compliant.',
+    description: 'How to redact a candidate\'s CV before sending it to a client. Protect candidate data, prevent poaching, and stay privacy-conscious.',
     date:        '2026-05-29',
     dateLabel:   'May 2026',
     lang:        'en',

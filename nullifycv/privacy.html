@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Privacy Policy — NullifyCV</title>
   <meta name="description" content="NullifyCV privacy policy. How we handle data, what we collect, and your rights under GDPR.">
-  <link rel="canonical" href="https://nullifycv.com/privacy.html">
+  <link rel="canonical" href="https://www.nullifycv.com/privacy.html">
   <meta property="og:title" content="Privacy Policy — NullifyCV">
-  <meta property="og:description" content="NullifyCV processes files entirely in your browser. Zero document data transmitted, no storage. Read the full privacy policy.">
-  <meta property="og:url" content="https://nullifycv.com/privacy.html">
+  <meta property="og:description" content="How NullifyCV handles local CV processing, browser storage, payments, licences, analytics, error reports and support data.">
+  <meta property="og:url" content="https://www.nullifycv.com/privacy.html">
   <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -86,127 +86,21 @@
 <div class="legal-wrap">
   <div class="legal-tag">Legal</div>
   <h1 class="legal-title">Privacy Policy</h1>
-  <div class="legal-meta">NullifyCV · Last updated: May 2026 · Governed by Dutch law and GDPR</div>
+  <div class="legal-meta">NullifyCV · Last updated: September 2026 · Governed by Dutch law and GDPR</div>
   <div class="legal-rule"></div>
 
   <div class="legal-body">
-
-    <div class="legal-highlight">
-      <p>🔒 The short version: NullifyCV does not receive, store, or process the CV files you upload. All file processing happens entirely in your browser. The only personal data we collect is what's necessary to process payments (via Stripe) and measure anonymous site usage (via Vercel Analytics).</p>
-    </div>
-
-    <h2>1. Who we are</h2>
-    <p>NullifyCV is operated by <strong>NullifyCV</strong>, based in the Netherlands. We operate the website at <a href="https://nullifycv.com">nullifycv.com</a>.</p>
-    <p>For privacy questions, contact us at: <a href="mailto:support@nullifycv.com">support@nullifycv.com</a></p>
-
-    <h2>2. The core privacy architecture</h2>
-    <p>NullifyCV is built on a zero-transmission architecture. When you upload a CV or resume for redaction:</p>
-    <ul>
-      <li>The file is read directly by your browser using pdf.js and mammoth.js</li>
-      <li>All text extraction, PII detection, and redaction processing occurs in your browser's memory</li>
-      <li>The redacted output is created as a local Blob URL and downloaded directly to your device</li>
-      <li>No file data, document content, or extracted text is ever sent to NullifyCV or any third party</li>
-    </ul>
-    <p>NullifyCV is a static website hosted on Vercel. There is no server-side code that can receive document data. This means NullifyCV does not act as a data processor under GDPR Article 4(8) with respect to the CV files you process — no Data Processing Agreement is required.</p>
-    <p>You can verify this claim by opening your browser's DevTools (F12) → Network tab and observing that no outbound requests contain document data during processing.</p>
-
-    <h2>3. What data we do collect</h2>
-    <p>While we do not collect your CV data, we do collect limited data for operational purposes:</p>
-
-    <h3>3.1 Analytics data (Vercel Analytics)</h3>
-    <p>We use Vercel Analytics to understand how visitors use the site. This collects:</p>
-    <ul>
-      <li>Page views and referrer information</li>
-      <li>Country-level location (not precise location)</li>
-      <li>Device type and browser type</li>
-      <li>Visit duration</li>
-    </ul>
-    <p>Vercel Analytics is privacy-friendly by design — it does not use cookies and does not track individual users across sessions. No personal data is collected. The legal basis for this processing is our legitimate interest (GDPR Article 6(1)(f)) in understanding how the site is used to improve it.</p>
-
-    <h3>3.2 Payment data (Stripe)</h3>
-    <p>If you purchase a paid plan, your payment is processed by <strong>Stripe</strong> (Stripe Payments Europe, Ltd, a company incorporated in Ireland). NullifyCV never receives or stores your payment card details.</p>
-    <p>Stripe collects and processes:</p>
-    <ul>
-      <li>Payment card information</li>
-      <li>Billing name and email address</li>
-      <li>Transaction data</li>
-    </ul>
-    <p>The legal basis for this processing is the performance of a contract (GDPR Article 6(1)(b)). Stripe's privacy policy is available at <a href="https://stripe.com/privacy" target="_blank" rel="noopener">stripe.com/privacy</a>.</p>
-    <p>NullifyCV retains a record of the transaction (plan purchased, amount, date) for accounting and tax purposes. We retain this for 7 years as required by Dutch tax law.</p>
-    <p><strong>What we do — and do not do — with your email address.</strong> Through our Stripe dashboard we can see the email address you used at checkout. We use it only to: (a) deliver your licence and a receipt, and (b) reply to support questions you send us. We will never use it to send marketing emails, product newsletters, or promotional messages. We do not export your email address to any other tool (CRM, mailing list, analytics platform). It exists only in Stripe and, where you have written to us, in our support inbox. If you ask us to delete your data, we will delete the Stripe customer record and any support correspondence, except where Dutch tax law requires us to retain the transaction record for 7 years.</p>
-
-    <h3>3.3 Support communications</h3>
-    <p>If you contact us at support@nullifycv.com, we will process your email address and the content of your message to respond to your request. The legal basis is our legitimate interest in providing support (GDPR Article 6(1)(f)). We retain support emails for 2 years.</p>
-
-    <h3>3.4 Error tracking (Sentry)</h3>
-    <p>We use <strong>Sentry</strong> (Functional Software, Inc., trading as Sentry, with EU data hosted by Sentry GmbH in Germany) to capture JavaScript errors that occur in your browser while using the site. This helps us identify and fix bugs we would otherwise never know about.</p>
-    <p>Sentry transmits data <strong>only when an error occurs</strong>. If no error happens during your visit, no data is sent to Sentry. When an error does occur, Sentry transmits:</p>
-    <ul>
-      <li>The error message and JavaScript stack trace</li>
-      <li>Browser type and version, operating system, screen size</li>
-      <li>The URL where the error occurred</li>
-      <li>A short trail of recent activity preceding the error (page navigations, network request URLs, button clicks) — known as "breadcrumbs" — to help us reproduce the bug. Form values and input contents are automatically redacted from breadcrumbs.</li>
-      <li>An anonymous session identifier (regenerated each visit; not linked to any account or persistent identity)</li>
-    </ul>
-    <p><strong>Sentry never receives any document data.</strong> Your CV files, extracted text, and processed output are never included in error reports. Sentry's data scrubbing strips form values, file inputs, and input field contents before transmission. We do not use Sentry's Session Replay feature, which means there is no recording of your screen, mouse movements, or keystrokes.</p>
-    <p>Error data is hosted on Sentry's EU servers (Frankfurt, Germany). The legal basis for this processing is our legitimate interest (GDPR Article 6(1)(f)) in maintaining a working application. Sentry's privacy policy is available at <a href="https://sentry.io/privacy/" target="_blank" rel="noopener">sentry.io/privacy</a>. Error data is retained by Sentry for 90 days.</p>
-
-    <h3>3.5 Licence data (localStorage)</h3>
-    <p>If you purchase a paid plan, a licence record is stored in your browser's localStorage. This data never leaves your device — it is not transmitted to NullifyCV. It contains your plan type and expiry date only.</p>
-
-    <h2>4. Cookies</h2>
-    <p>NullifyCV does not use tracking cookies. Vercel Analytics operates without cookies. Stripe may set cookies during the checkout process on their hosted payment page — these are governed by Stripe's cookie policy.</p>
-    <p>Because we do not use cookies for tracking or analytics, no cookie consent banner is required under the ePrivacy Directive for our core site functionality.</p>
-
-    <h2>5. Your rights under GDPR</h2>
-    <p>As a resident of the EU/EEA, you have the following rights regarding any personal data we hold about you:</p>
-
-    <table class="legal-table">
-      <thead><tr><th>Right</th><th>What it means</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Access</strong></td><td>You can request a copy of the personal data we hold about you</td></tr>
-        <tr><td><strong>Rectification</strong></td><td>You can ask us to correct inaccurate data</td></tr>
-        <tr><td><strong>Erasure</strong></td><td>You can ask us to delete your personal data</td></tr>
-        <tr><td><strong>Restriction</strong></td><td>You can ask us to restrict processing in certain circumstances</td></tr>
-        <tr><td><strong>Portability</strong></td><td>You can request your data in a machine-readable format</td></tr>
-        <tr><td><strong>Object</strong></td><td>You can object to processing based on legitimate interests</td></tr>
-      </tbody>
-    </table>
-
-    <p>To exercise any of these rights, contact us at <a href="mailto:support@nullifycv.com">support@nullifycv.com</a>. We will respond within one month.</p>
-    <p>You also have the right to lodge a complaint with the Dutch Data Protection Authority (Autoriteit Persoonsgegevens) at <a href="https://www.autoriteitpersoonsgegevens.nl" target="_blank" rel="noopener">autoriteitpersoonsgegevens.nl</a>.</p>
-
-    <h2>6. Data transfers</h2>
-    <p>Vercel Analytics is operated by Vercel Inc., a US company. Data is processed under Vercel's EU Data Processing Agreement and Standard Contractual Clauses.</p>
-    <p>Stripe is operated by Stripe Payments Europe, Ltd, an Irish company. Payment data is processed within the EU/EEA.</p>
-
-    <h2>7. Data retention</h2>
-    <table class="legal-table">
-      <thead><tr><th>Data type</th><th>Retention period</th></tr></thead>
-      <tbody>
-        <tr><td>Analytics data</td><td>90 days (Vercel)</td></tr>
-        <tr><td>Payment records</td><td>7 years (Dutch tax law)</td></tr>
-        <tr><td>Support emails</td><td>2 years</td></tr>
-        <tr><td>Licence data (localStorage)</td><td>Stored locally on your device only; deleted when your plan expires</td></tr>
-        <tr><td>CV files</td><td>Not collected — processed locally and never transmitted</td></tr>
-      </tbody>
-    </table>
-
-    <h2>8. Children's privacy</h2>
-    <p>NullifyCV is not directed at children under 16. We do not knowingly collect personal data from children. If you believe a child has provided us with personal data, please contact us and we will delete it promptly.</p>
-
-    <h2>9. Changes to this policy</h2>
-    <p>We may update this privacy policy from time to time. We will indicate the date of the last update at the top of this page. Significant changes will be communicated via a notice on the site.</p>
-
-    <h2>10. Contact</h2>
-    <p>For any privacy-related questions or requests:<br>
-    <strong>NullifyCV</strong><br>
-    Netherlands<br>
-    <a href="mailto:support@nullifycv.com">support@nullifycv.com</a></p>
-
-  </div>
-</div>
-
+<div class="legal-highlight"><p>Your CV is processed on your device. NullifyCV also uses online services for payment, licence verification, analytics and error reporting. These activities are different from uploading a CV for redaction.</p></div>
+<h2>1. Who we are</h2><p>NullifyCV is operated from the Netherlands. Contact <a href="mailto:support@nullifycv.com">support@nullifycv.com</a> for service and privacy questions.</p>
+<h2>2. CV files and browser storage</h2><p>The redaction workflow reads PDF/DOCX files and produces output in your browser. It does not send CV files or extracted document text to our redaction servers; there is no server-side document-processing step.</p><p>When you start checkout, we temporarily save your selected CV and settings in this browser using IndexedDB so you can resume when you return. The temporary copy is deleted after restoration. If checkout is abandoned, it is deleted on your next visit after 24 hours. Closing the browser alone does not trigger deletion; you can clear site data yourself at any time.</p><p>Single-CV purchases are associated with a file fingerprint stored only in your browser. This fingerprint is not sent to our server or Stripe. A random purchase/workflow reference is sent to create and verify checkout. Licence records and file fingerprints remain in browser storage until removed. Clearing this storage may require support to restore access.</p>
+<h2>3. Payments and licences</h2><p>Stripe processes payments and handles card details. We can access purchase information such as email, billing information, purchased product, amount, payment status and transaction identifiers through Stripe. We use this information to deliver the service, administer subscriptions, provide receipts, handle support, prevent misuse and maintain accounting records.</p><p>Our server functions communicate with Stripe to create checkout and confirm what was purchased. A signed licence is stored in your browser and sent to our server for verification. It includes plan, timestamps, checkout reference and, for new purchases, a random workflow reference. New paid access is rechecked online; annual access follows the paid subscription period.</p><p>Payment and licence processing supports performance of the purchase contract. Accounting records are retained for the applicable statutory period; the current accounting policy retains required payment records for seven years. We do not use checkout email addresses for promotional mailing lists. Stripe has its own privacy and payment practices: <a href="https://stripe.com/privacy">Stripe privacy policy</a>.</p>
+<h2>4. Usage analytics</h2><p>We use Vercel Analytics to understand page visits and how features are used. Instrumentation includes page/referrer and device information and events such as mode selection, file format, processing completion, detected-item counts, audit download, upgrade-dialog interactions and checkout clicks. It is not intended to include CV text or filenames in those custom analytics events.</p><p>Cookieless analytics is still usage measurement. We therefore do not describe the site as having no tracking or no network activity. We use analytics to improve the service, on the basis of our legitimate interest subject to applicable privacy requirements. See <a href="https://vercel.com/docs/analytics/privacy-policy">Vercel Analytics privacy information</a>.</p>
+<h2>5. Error reporting and operational requests</h2><p>We use Sentry to help diagnose application errors. Error reporting can include error messages, stack traces, page URLs, browser/device information and diagnostic context. Do not include sensitive document information when reporting a problem. We do not intentionally attach CV files to error reports. No promise is made here that an error-reporting loader makes no requests unless an error occurs.</p><p>Vercel provides hosting and server functions; external providers also deliver fonts and JavaScript libraries. These requests expose ordinary connection information such as IP addresses and user-agent information to the provider. Hosting and payment services may retain security, access and operational records. See <a href="https://sentry.io/privacy/">Sentry privacy information</a> and <a href="https://vercel.com/legal/privacy-policy">Vercel privacy information</a>.</p>
+<h2>6. Support, retention and deletion</h2><p>If you email us, we process your address and message to respond. Our support retention policy is two years. Do not attach a real CV unless you have independently decided it is appropriate; use a synthetic example when reporting a detection issue.</p><p>We retain required payment records for accounting and keep licence-related records needed for access and support. Provider-held analytics, diagnostics and operational records follow the configured provider retention settings and applicable requirements. Contact us for information about the settings applying to your request. Deletion requests are subject to legal retention duties and the records needed for an active purchase.</p><p>Paid access is remembered in the browser where it was activated. Automated licence recovery and device transfer are not currently available; contact support with your Stripe receipt so we can verify the purchase and explain the available options.</p>
+<h2>7. Cookies and transfers</h2><p>Our current analytics integration is cookieless. Necessary browser storage remembers access and temporarily restores checkout work. Stripe's hosted checkout may use cookies and other technologies under its own policies. This site does not promise that third-party checkout is cookie-free.</p><p>Providers may process data internationally. Applicable safeguards and provider arrangements apply; an EU contracting entity does not mean all processing remains within the EU.</p>
+<h2>8. Your rights</h2><p>Depending on the applicable law, you can request access, correction, deletion, restriction or portability of personal data, and object to processing based on legitimate interests. Email support@nullifycv.com. We respond to GDPR requests within the applicable time limits, normally one month. You can complain to the <a href="https://autoriteitpersoonsgegevens.nl/">Dutch Data Protection Authority</a>.</p>
+<h2>9. Scope and updates</h2><p>Reducing identifiers does not guarantee that a CV is anonymous or that your hiring process meets every legal requirement. Review outputs and apply your own retention and access rules. We update this policy when the service changes. The service is not directed at children under 16.</p>
+</div></div>
 <footer class="foot" role="contentinfo">
   <span class="foot-brand">nullifycv.com</span>
   <span aria-hidden="true">·</span>
@@ -224,7 +118,7 @@
   <span aria-hidden="true">·</span>
   <a href="/terms.html">Terms</a>
   <span aria-hidden="true">·</span>
-  <small>No uploads · No storage · Open source · GDPR-consistent · Not legal advice</small>
+  <small>Local CV processing · Open source · Supports data minimisation · Not legal advice</small>
 </footer>
 
 <script defer src="/_vercel/insights/script.js"></script>

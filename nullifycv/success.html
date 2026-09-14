@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta name="robots" content="noindex,follow">
+<script>window.ncvCheckoutSession=new URLSearchParams(location.search).get("session_id");</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Payment Successful — NullifyCV</title>
-  <meta name="robots" content="noindex">
   <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
@@ -34,7 +35,7 @@
   </style>
   <meta property="og:title" content="Payment Successful — NullifyCV">
   <meta property="og:description" content="Your NullifyCV plan is now active.">
-  <meta property="og:url" content="https://nullifycv.com/success.html">
+  <meta property="og:url" content="https://www.nullifycv.com/success.html">
   <script src="https://js-de.sentry-cdn.com/263c778b9462a7bb5fa848cf4ed54d4a.min.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -86,9 +87,9 @@
 <div class="success-wrap">
 
   <div class="success-icon">✓</div>
-  <div class="success-tag">Payment confirmed</div>
-  <h1 class="success-title">You're all set.<br>Access activated.</h1>
-  <p class="success-sub">Your plan is active and has been saved to this browser automatically. No key needed — just click below to start.</p>
+  <div class="success-tag">Checking payment</div>
+  <h1 class="success-title">Please wait a moment.<br>Checking your access.</h1>
+  <p class="success-sub"><span id="activation-message">We are verifying your purchase before saving access to this browser.</span></p>
 
   <div class="plan-card">
     <div class="plan-card-label">Your plan</div>
@@ -100,8 +101,8 @@
   <div class="saved-badge">
     <div class="saved-badge-icon">💾</div>
     <div class="saved-badge-text">
-      Access saved to this browser automatically
-      <small>No account or key needed. Works every time you visit nullifycv.com on this device.</small>
+      Access is saved after verification
+      <small>Keep your receipt. Paid access requires an online check; clearing browser storage can require recovery.</small>
     </div>
   </div>
 
@@ -109,8 +110,8 @@
 
   <div class="support-note">
     Switching devices or cleared your browser?<br>
-    Email <a href="mailto:support@nullifycv.com">support@nullifycv.com</a> with your Stripe receipt and we'll restore your access within 24 hours.<br><br>
-    Payments processed by Stripe · nullifycv.com never stores payment details.
+    Automated recovery is not available yet. Email <a href="mailto:support@nullifycv.com">support@nullifycv.com</a> with your Stripe receipt so we can verify the purchase and explain the available options.<br><br>
+    Payments processed by Stripe · Stripe handles card details; payment and licence records support your purchase.
   </div>
 
 </div>
@@ -132,81 +133,11 @@
   <span aria-hidden="true">·</span>
   <a href="/terms.html">Terms</a>
   <span aria-hidden="true">·</span>
-  <small>No uploads · No storage · Open source · GDPR-consistent · Not legal advice</small>
+  <small>Local CV processing · Open source · Supports data minimisation · Not legal advice</small>
 </footer>
 
-<script>
-const PLAN_DISPLAY = {
-  week:   { name: 'Week Pass',          desc: 'Unlimited files for 7 days. All modes, all targets.',                                              days: 7   },
-  pro:    { name: 'Pro Monthly',        desc: 'Batch processing (200 files), saved profiles, GDPR audit log.',                                    days: 30  },
-  proyr:  { name: 'Pro Annual',         desc: 'Batch processing (200 files), saved profiles, GDPR audit log. 12 months.',                          days: 365 },
-  team:   { name: 'Team & Enterprise',  desc: 'Everything in Pro, with volume licensing and priority support arranged for your team.',            days: 30  },
-};
-
-const params    = new URLSearchParams(window.location.search);
-const planKey   = params.get('plan') || 'week';
-const sessionId = params.get('session_id');  // Stripe appends this when success_url uses {CHECKOUT_SESSION_ID}
-const display   = PLAN_DISPLAY[planKey] || PLAN_DISPLAY.week;
-
-// Show plan name immediately so the page doesn't look broken while the network call runs
-document.getElementById('plan-name').textContent = display.name;
-document.getElementById('plan-desc').textContent = display.desc;
-document.getElementById('plan-expiry').textContent = 'Activating…';
-document.getElementById('go-btn').href = '#';
-document.getElementById('go-btn').textContent = 'Activating your licence…';
-
-(async function activateLicence() {
-  // If Stripe didn't append a session_id we cannot verify the purchase. Show
-  // a clear error path rather than silently issuing a forged licence.
-  if (!sessionId) {
-    document.getElementById('plan-expiry').textContent = '⚠ Missing session ID — please email support';
-    document.getElementById('go-btn').textContent = 'Contact support@nullifycv.com';
-    document.getElementById('go-btn').href = 'mailto:support@nullifycv.com?subject=Activation%20issue%20-%20no%20session%20id';
-    return;
-  }
-
-  try {
-    const r = await fetch('/api/issue-licence', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ session_id: sessionId, plan: planKey }),
-    });
-
-    if (!r.ok) {
-      const err = await r.json().catch(() => ({}));
-      console.warn('[NullifyCV] /api/issue-licence failed:', r.status, err);
-      document.getElementById('plan-expiry').textContent = '⚠ Could not activate — please email support';
-      document.getElementById('go-btn').textContent = 'Contact support@nullifycv.com';
-      document.getElementById('go-btn').href = 'mailto:support@nullifycv.com?subject=Activation%20issue&body=Stripe%20session%3A%20' + encodeURIComponent(sessionId);
-      return;
-    }
-
-    const { payload, signature } = await r.json();
-
-    // Save the SIGNED licence — the client cannot forge a valid signature
-    try {
-      localStorage.setItem('ncv_licence_v2', JSON.stringify({ payload, signature }));
-      // Clear any old (unsigned) licence so the validation path doesn't get confused
-      localStorage.removeItem('ncv_licence');
-    } catch (e) {
-      console.warn('[NullifyCV] localStorage write failed:', e);
-    }
-
-    // Update UI to reflect successful activation
-    const expDate = new Date(payload.expires).toLocaleDateString('en-US', {
-      weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
-    });
-    document.getElementById('plan-expiry').textContent = '✓ Active until ' + expDate;
-    document.getElementById('go-btn').textContent = 'Start using NullifyCV →';
-    document.getElementById('go-btn').href = '/?activated=' + planKey;
-  } catch (e) {
-    console.error('[NullifyCV] Activation error:', e);
-    document.getElementById('plan-expiry').textContent = '⚠ Network error — please refresh or email support';
-    document.getElementById('go-btn').textContent = 'Contact support@nullifycv.com';
-    document.getElementById('go-btn').href = 'mailto:support@nullifycv.com?subject=Activation%20issue&body=Stripe%20session%3A%20' + encodeURIComponent(sessionId);
-  }
-})();
-</script>
+<script src="checkout.js"></script>
+<script src="success.js"></script>
 <script defer src="/_vercel/insights/script.js"></script>
 
 <script>

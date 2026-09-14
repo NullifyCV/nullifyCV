@@ -165,6 +165,7 @@ function hidePhotoWarning() {
 }
 
 function toggleCard(el){
+  if(el.classList.contains('tcard-locked')) { showUpgrade('target',el.dataset.key); return; }
   el.classList.toggle('on');
   const on=el.classList.contains('on');
   el.setAttribute('aria-checked',on?'true':'false');
@@ -191,9 +192,11 @@ function loadFile(file){
   ['piiwrap','ss','prev','pad'].forEach(id=>$(id).classList.remove('show'));
   // Analytics: a file was uploaded (no filename or content sent — just the format)
   if (window.va) window.va('event', { name: 'file_upload', format: ext });
+  if(window.ncvFileChanged) window.ncvFileChanged();
 }
 
 function clearFile(){
+  if(window.ncvFileChanged) setTimeout(()=>window.ncvFileChanged(),0);
   currentFile=null;$('frow').classList.remove('show');$('drop').style.display='';
   $('pbtn').disabled=true;$('fi').value='';clearError();pdfPositions=[];
   hidePhotoWarning();
@@ -1121,7 +1124,7 @@ function downloadRedactedText(){
     'Original file : '+currentFile.name,
     'Processed     : '+new Date().toISOString(),
     'Engine        : pdf.js 3.11.174 + pdf-lib 1.17.1 / mammoth 1.6.0',
-    'Transmitted   : 0 bytes',
+    'Processing    : local browser (application-reported)',
     'Nullified     : '+detectedPII.length+' PII items',
     sep,'',redactedText].join('\n');
   const blob=new Blob([content],{type:'text/plain;charset=utf-8'});
@@ -1133,8 +1136,8 @@ function downloadRedactedText(){
 function dlAudit(){
   const data=auditData||{tool:'NullifyCV v2.3.1',site:'nullifycv.com',
     timestamp:new Date().toISOString(),file:currentFile?currentFile.name:'none',
-    server_transmissions:0,items_nullified:detectedPII.length,
-    disclaimer:'Consistent with GDPR Article 5. Not legal advice.'};
+    processing_location:'browser',network_measurement:false,items_nullified:detectedPII.length,
+    disclaimer:'Application-generated activity record. Review required; not legal advice.'};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');a.href=url;a.download='nullifycv_audit_'+Date.now()+'.json';a.click();
@@ -1150,7 +1153,9 @@ function dlAudit(){
 
 /* ── Main processing flow ────────────────────────────────────────────────── */
 async function go(){
-  if(!currentFile)return;clearError();_redactedPdfBytes=null;
+  if(!currentFile)return;
+  if(window.ncvValidate) await window.ncvValidate();
+  clearError();_redactedPdfBytes=null;
   const btn=$('pbtn');btn.disabled=true;
   btn.innerHTML='<div class="spin" style="border-top-color:var(--green-muted);width:11px;height:11px;margin:0;"></div> Nullifying...';
   $('ss').classList.add('show');$('spin').style.display='';
@@ -1250,7 +1255,7 @@ async function go(){
         file:currentFile.name,file_size_bytes:currentFile.size,
         processing_engine:'pdf.js@3.11.174 + pdf-lib@1.17.1',
         output_format:_redactedPdfBytes?'redacted PDF (black bars)':'plain text',
-        server_transmissions:0,
+        processing_location:'browser',network_measurement:false,
         items_nullified:detectedPII.length,
         images_nullified:imagesToRedact.length,
         images_detected:images.length,
@@ -1267,7 +1272,7 @@ async function go(){
         position_finder_diagnostics: positions._diagnostics || null,
         active_redaction_keys:Object.keys(activeKeys),
         items:detectedPII.map(p=>({type:p.type,label:p.label,confidence:p.conf})),
-        disclaimer:'Consistent with GDPR Article 5. Not legal advice.'};
+        disclaimer:'Application-generated activity record. Review required; not legal advice.'};
 
       // Download redacted PDF if we have it, otherwise text
       setTimeout(()=>{
@@ -1307,7 +1312,7 @@ async function go(){
       auditData={tool:'NullifyCV v2.3.1',site:'nullifycv.com',
         report_id:'NCV-'+Date.now(),timestamp:new Date().toISOString(),
         file:currentFile.name,processing_engine:'mammoth@1.6.0',
-        server_transmissions:0,items_nullified:detectedPII.length,
+        processing_location:'browser',network_measurement:false,items_nullified:detectedPII.length,
         disclaimer:'Consistent with GDPR Article 5. Not legal advice.'};
 
       setTimeout(downloadRedactedText,400);
@@ -1316,7 +1321,7 @@ async function go(){
     }
 
     $('pad').classList.add('show');
-    $('padok').textContent='✓ '+detectedPII.length+' items nullified — 0 bytes transmitted to any server.';
+    $('padok').textContent='✓ '+detectedPII.length+' items nullified — processed locally. Review the output before sharing.';
 
   }catch(err){
     console.error('[NullifyCV]',err);showError(err.message);setStatus('Error',0);
@@ -1326,44 +1331,28 @@ async function go(){
 
 document.addEventListener('DOMContentLoaded',()=>{
   initPdfJs();
-  document.querySelectorAll('.tcard').forEach(card=>{
-    card.addEventListener('keydown',e=>{
-      if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleCard(card);}
-    });
+  document.getElementById('tgrid')?.addEventListener('keydown',e=>{
+    const card=e.target.closest('.tcard');
+    if(card&&(e.key==='Enter'||e.key===' ')){e.preventDefault();toggleCard(card);}
   });
-  // Licence system init
-  if (!checkURLLicence()) {
-    loadStoredLicence();
-  }
+  // checkout.js restores work and validates paid access after capturing locked UI state.
   // Init batch UI (shows only for pro/team)
   initBatchUI();
   // Initialize the batch mode banner with the default mode
   updateBatchModeBanner();
-  // Bytes counter — stays at 0, proves nothing is transmitted
-  const bc = document.getElementById('bytes-counter');
-  if (bc) {
-    // Intercept fetch to count bytes — always 0 for document data
-    const origFetch = window.fetch;
-    window.fetch = function(...args) {
-      // Document processing never calls fetch — only CDN scripts do on load
-      return origFetch.apply(this, args);
-    };
-    // Keep counter at 0 and pulse it after processing to draw attention
-    window.markBytesVerified = function() {
-      if (bc) { bc.style.color = 'var(--green-mid)'; bc.style.fontWeight = '700'; }
-    };
-  }
+  // Local-processing information is explanatory, not a network measurement.
+
 });
 
 /* ── Upgrade modal ────────────────────────────────────────────────────────── */
 const UPGRADE_COPY = {
   mode: {
     title: 'Unlock advanced redaction modes',
-    desc:  'Bias Strip removes school names, graduation years and pronouns. Client Sub. protects candidate contact details before forwarding to clients. EEOC mode applies full blind review redaction. Unlock with the $4.99 Week Pass — unlimited use for 7 days.'
+    desc:  'Bias Strip targets school names, graduation years and pronouns. Client Sub. targets candidate contact details before forwarding to clients. EEOC mode applies the broader blind-review profile. Unlock with the €2.99 Single CV purchase — all redaction options for your selected source CV.'
   },
   target: {
     title: 'Unlock additional redaction targets',
-    desc:  'School names, gender pronouns, LinkedIn URLs and file metadata are paid targets. They remove prestige bias, gender signals and hidden author data from your CV. Unlock with the $4.99 Week Pass — one-time, no subscription, no auto-renewal.'
+    desc:  'School names, gender pronouns, LinkedIn URLs and file metadata are paid targets. They remove prestige bias, gender signals and hidden author data from your CV. Unlock with the €2.99 Single CV purchase — one-time, no subscription.'
   }
 };
 
@@ -1372,8 +1361,9 @@ const UPGRADE_COPY = {
 // The flag is window-scoped because the checkout_click handler lives in
 // index.html (it runs on every link site-wide, not just from the modal).
 let _upgradeModalOpenTrigger = null;
+window.ncvUpgradeIntent = null;
 
-function showUpgrade(type) {
+function showUpgrade(type, value) {
   const copy = UPGRADE_COPY[type] || UPGRADE_COPY.mode;
   document.getElementById('upgrade-title').textContent = copy.title;
   document.getElementById('upgrade-desc').textContent  = copy.desc;
@@ -1382,6 +1372,7 @@ function showUpgrade(type) {
   // Analytics: how often does the upgrade modal appear?
   // Pairs with checkout_click to measure modal → checkout conversion.
   _upgradeModalOpenTrigger = type;
+  window.ncvUpgradeIntent = value ? { type, value } : null;
   window._upgradeModalCheckoutClicked = false;
   if (window.va) window.va('event', { name: 'upgrade_modal_shown', trigger: type });
 }
@@ -1395,6 +1386,7 @@ function closeUpgrade() {
     window.va('event', { name: 'upgrade_modal_dismissed', trigger: _upgradeModalOpenTrigger });
   }
   _upgradeModalOpenTrigger = null;
+  window.ncvUpgradeIntent = null;
 }
 
 document.addEventListener('keydown', e => {
@@ -1409,71 +1401,18 @@ document.addEventListener('keydown', e => {
    HMAC-SHA256 signature server-side and rejects forgeries.
 
    Legacy 'ncv_licence' entries (pre-Move-2, unsigned) are ignored and removed.
-   There are no production-paying customers to migrate.
+   Existing signed licences retain their purchased access.
    ─────────────────────────────────────────────────────────────────────────── */
 
 let activeLicence = null;
 
 /* ── Load and validate stored licence on page load ────────────────────────── */
-async function loadStoredLicence() {
-  // Clean up any legacy unsigned licence — it cannot be trusted under the new model
-  try {
-    if (localStorage.getItem('ncv_licence')) {
-      localStorage.removeItem('ncv_licence');
-    }
-  } catch (e) {}
-
-  // Read the signed licence
-  let stored;
-  try {
-    stored = JSON.parse(localStorage.getItem('ncv_licence_v2') || 'null');
-  } catch (e) {
-    return false;
-  }
-  if (!stored || !stored.payload || !stored.signature) return false;
-
-  // Fast local expiry check before hitting the server. This is purely a UX
-  // optimisation — we still validate with the server below, which is authoritative.
-  if (typeof stored.payload.expires === 'number' && stored.payload.expires <= Date.now()) {
-    try { localStorage.removeItem('ncv_licence_v2'); } catch (e) {}
-    return false;
-  }
-
-  // Validate signature server-side. A forged localStorage entry will fail here.
-  try {
-    const r = await fetch('/api/validate-licence', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ payload: stored.payload, signature: stored.signature }),
-    });
-    const result = await r.json();
-
-    if (r.ok && result.valid === true) {
-      activeLicence = {
-        tier: result.tier,
-        plan: result.plan,
-        expires: result.expires,
-      };
-      applyLicence(result.tier);
-      showLicenceStatus(activeLicence);
-      return true;
-    }
-
-    // Invalid signature OR expired OR malformed — drop it so a stale entry
-    // can't keep failing validation on every load.
-    try { localStorage.removeItem('ncv_licence_v2'); } catch (e) {}
-    return false;
-  } catch (e) {
-    // Network error talking to /api/validate-licence. We deliberately fail
-    // CLOSED here — if we can't verify, we don't unlock. The user can refresh.
-    console.warn('[NullifyCV] Licence validation network error:', e);
-    return false;
-  }
-}
+async function loadStoredLicence() { return window.ncvValidate ? window.ncvValidate() : false; }
 
 /* ── Apply licence — unlock features ── */
 function applyLicence(tier) {
-  activeLicence = { tier };
+  if(!['seeker','pro','team'].includes(tier)) return;
+  activeLicence = { ...(activeLicence || {}), tier };
   const isSeeker = ['seeker','pro','team'].includes(tier);
   const isPro    = ['pro','team'].includes(tier);
 
@@ -1506,8 +1445,11 @@ function showLicenceStatus(licence) {
   const bar = document.getElementById('licence-status');
   if (!bar) return;
   const expDate = new Date(licence.expires).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
-  const tierLabel = licence.tier === 'pro' ? 'Pro' : licence.tier === 'team' ? 'Team' : 'Job Seeker';
-  bar.innerHTML = `<span style="color:var(--green-mid)">✓</span> ${tierLabel} plan active — expires ${expDate} · <a href="/pro.html" style="color:var(--green-muted);text-decoration:underline;font-size:11px;">upgrade</a>`;
+  const tierLabel = licence.plan === 'single' ? 'Single CV' : licence.tier === 'pro' ? 'Batch' : licence.tier === 'team' ? 'Team' : 'Existing pass';
+  const billing = licence.plan === 'annual' || licence.tier === 'team'
+    ? ' · <button type="button" onclick="ncvManageBilling()">Manage billing</button>'
+    : '';
+  bar.innerHTML = `<span style="color:var(--green-mid)">✓</span> ${tierLabel} active${licence.expires ? ' — through '+expDate : ' for this CV'}${billing}`;
   bar.style.display = 'flex';
 }
 
@@ -1524,7 +1466,7 @@ async function activateLicenceKey() {
     err.innerHTML = 'Manual key entry has been replaced with a more secure system. ' +
                     'If you lost access to your purchase, please email ' +
                     '<a href="mailto:support@nullifycv.com?subject=Restore%20access" style="color:inherit;text-decoration:underline;">support@nullifycv.com</a> ' +
-                    'with your Stripe receipt — we will restore your access within 24 hours.';
+                    'with your Stripe receipt. Automated recovery is not available yet; we will verify the purchase and explain the available options.';
   }
 }
 
@@ -1673,7 +1615,7 @@ async function batchProcessFile(file, activeKeys) {
       'Original file : ' + file.name,
       'Processed     : ' + new Date().toISOString(),
       'Engine        : mammoth 1.6.0',
-      'Transmitted   : 0 bytes',
+      'Processing    : local browser (application-reported)',
       'Nullified     : ' + pii.length + ' PII items',
       sep, '', redacted].join('\n');
     return { name: baseName + '_NULLIFIED.txt', bytes: new TextEncoder().encode(content), piiCount: pii.length, type: 'docx' };
@@ -1682,6 +1624,8 @@ async function batchProcessFile(file, activeKeys) {
 
 /* ── Run the batch ── */
 async function batchRun() {
+  if(window.ncvValidate) await window.ncvValidate();
+  if(!activeLicence || !['pro','team'].includes(activeLicence.tier)){batchShowError('Annual batch access is required.');return;}
   if (batchRunning || batchQueue.length === 0) return;
   batchRunning = true;
   batchShowError('');
@@ -1785,7 +1729,7 @@ async function batchRun() {
         total_files: batchQueue.length,
         processed: results.length,
         errors,
-        server_transmissions: 0,
+        processing_location:'browser',network_measurement:false,
         active_keys: Object.keys(activeKeys),
         notes: activeKeys.photos
           ? 'Batch mode redacts photos using a heuristic filter (no per-file picker). For tricky cases, re-process individual files via the single-file flow which has the image picker.'
