@@ -188,7 +188,11 @@ function loadFile(file){
   $('fsize').textContent=fmtSize(file.size)+' · Ready to nullify';
   $('frow').classList.add('show');
   $('drop').style.display='none';
-  $('pbtn').disabled=false;
+  const processButton=$('pbtn');
+  processButton.disabled=false;
+  processButton.onclick=go;
+  processButton.textContent='Nullify & Download';
+  setReprocessAvailable(false);
   ['piiwrap','ss','prev','pad'].forEach(id=>$(id).classList.remove('show'));
   // Analytics: a file was uploaded (no filename or content sent — just the format)
   if (window.va) window.va('event', { name: 'file_upload', format: ext });
@@ -198,9 +202,21 @@ function loadFile(file){
 function clearFile(){
   if(window.ncvFileChanged) setTimeout(()=>window.ncvFileChanged(),0);
   currentFile=null;$('frow').classList.remove('show');$('drop').style.display='';
-  $('pbtn').disabled=true;$('fi').value='';clearError();pdfPositions=[];
+  $('pbtn').disabled=true;$('fi').value='';setReprocessAvailable(false);clearError();pdfPositions=[];
   hidePhotoWarning();
   ['piiwrap','ss','prev','pad'].forEach(id=>$(id).classList.remove('show'));
+}
+
+/* Lets a paid user adjust redaction targets and run the same original CV again.
+   No document bytes leave the browser and no second checkout is started. */
+function setReprocessAvailable(available){
+  const button=$('reprocess-btn');
+  if(button)button.hidden=!available;
+}
+function reprocessCurrentCV(){
+  if(!currentFile)return;
+  if(window.va)window.va('event',{name:'reprocess_started',mode:currentMode,source:'single_cv'});
+  go();
 }
 
 /* ── PDF: extract text WITH positions using pdf.js ───────────────────────── */
@@ -1288,6 +1304,7 @@ async function go(){
         btn.innerHTML='Download text version';
         btn.onclick=downloadRedactedText;
       }
+      setReprocessAvailable(true);
 
     }else{
       /* ── DOCX path: extract text, redact, output clean text ── */
@@ -1318,6 +1335,7 @@ async function go(){
       setTimeout(downloadRedactedText,400);
       btn.disabled=false;
       btn.innerHTML='Download again';btn.onclick=downloadRedactedText;
+      setReprocessAvailable(true);
     }
 
     $('pad').classList.add('show');

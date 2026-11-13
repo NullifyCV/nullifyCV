@@ -8,6 +8,14 @@
  async function fingerprint(file){return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',await file.arrayBuffer())),x=>x.toString(16).padStart(2,'0')).join('');}
  function read(key,fallback){try{return JSON.parse(localStorage.getItem(key)||'null')||fallback;}catch{return fallback;}}
  function notice(message){let e=document.getElementById('checkout-message');if(!e){e=document.createElement('p');e.id='checkout-message';e.setAttribute('role','status');e.style.cssText='padding:12px;color:#214e39;background:#edf5ef;border-radius:8px;';(document.getElementById('upgrade-modal')||document.querySelector('.pro-wrap')||document.body).appendChild(e);}e.textContent=message;}
+ function preparePremiumReprocess(){
+  const button=document.getElementById('pbtn');
+  if(!button||typeof currentFile==='undefined'||!currentFile)return;
+  button.disabled=false;
+  button.onclick=go;
+  button.textContent='Reprocess with selected options';
+  notice('Premium options are unlocked. Select any additional redaction targets, then choose Reprocess with selected options.');
+ }
  function track(name,data){if(typeof window.va==='function')window.va('event',{name,...data});}
  function safeFailure(error){
   const known=['checkout_not_configured','price_configuration_mismatch','payment_configuration_unavailable','payment_provider_authentication_failed','payment_provider_request_failed','payment_service_unavailable'];
@@ -78,6 +86,8 @@
  window.ncvManageBilling=async function(){try{const stored=loaded||read('ncv_licence_v2',null);if(!stored)throw new Error();const result=await api('/api/customer-portal',stored);if(!result.url.startsWith('https://billing.stripe.com/'))throw new Error();location.assign(result.url);}catch{notice('Please contact support@nullifycv.com with your receipt for billing help.');}};
  window.ncvPending=pending;
  document.addEventListener('DOMContentLoaded',async()=>{
+  const returnParams=new URLSearchParams(location.search);
+  const reviewPremium=returnParams.get('reprocess')==='1';
   const tabs=document.getElementById('mode-tabs'),cards=document.getElementById('tgrid');
   if(tabs){originalTabs=tabs.innerHTML;originalCards=cards.innerHTML;}
   try{localStorage.removeItem('ncv_licence');}catch{}
@@ -95,7 +105,9 @@
     if(activeLicence&&item.intent?.type==='target'&&['school','pronouns','urls','metadata'].includes(item.intent.value)){
      const card=document.querySelector(`#tgrid [data-key="${item.intent.value}"]:not(.tcard-locked)`);if(card){card.classList.add('on');card.setAttribute('aria-checked','true');card.querySelector('.tbox').textContent='✓';}
     }
-    await pending('delete');notice('Your CV and settings have been restored in this browser.');
+    await pending('delete');
+    if(reviewPremium&&activeLicence){preparePremiumReprocess();history.replaceState({},'',location.pathname);}
+    else notice('Your CV and settings have been restored in this browser.');
    }else {await window.ncvValidate();if(item)await pending('delete');}
   }catch{notice('Could not restore the previous CV. Select it again to continue.');}
   if(new URLSearchParams(location.search).get('offer')==='single')notice('Choose your CV, then select an advanced redaction option to unlock it for €2.99.');

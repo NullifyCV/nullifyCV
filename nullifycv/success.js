@@ -23,7 +23,8 @@
   status.textContent=payload.expires?'Access through '+new Date(payload.expires).toLocaleDateString():'Access saved for this CV in this browser.';
   if(heading)heading.textContent='Your access is ready.';
   document.getElementById('activation-message').textContent='Your purchase has been verified and access saved to this browser.';
-  button.href='/?activated=1';button.textContent='Continue with your CV →';
+  button.href=payload.plan==='single'?'/?activated=1&reprocess=1':'/?activated=1';
+  button.textContent=payload.plan==='single'?'Review premium options & reprocess →':'Continue to the tool →';
   // Fire only after Stripe verification and browser storage both succeeded.
   track('purchase_completed',{plan:payload.plan==='single'?'single_file':'annual_batch'});
  }catch(e){
