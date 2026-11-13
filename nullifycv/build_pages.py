@@ -13,6 +13,7 @@ for path in PAGES:
     f=ROOT/(path+"index.html" if not path or path.endswith("/") else path)
     text=f.read_text()
     assert '<meta name="robots" content="noindex' not in text, str(f)+" is unintentionally noindex"
+    assert not re.search(r'^\+\s*<link rel="alternate"', text, re.MULTILINE), str(f)+" has accidental diff markup before hreflang"
     assert re.search(r'<title>[^<]+</title>',text), str(f)+" has no page title"
     assert re.search(r'<meta name="description" content="[^"]+">',text), str(f)+" has no meta description"
     match=re.search(r'<link rel="canonical" href="([^"]+)"',text)

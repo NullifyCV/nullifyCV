@@ -219,6 +219,9 @@ body {
 .page-title span { color: var(--green-mid); }
 
 .page-sub { font-size: 12px; color: var(--ink3); }
+.guide-links { display:flex; flex-wrap:wrap; gap:4px 10px; align-items:center; margin-top:10px; font-family:var(--mono); font-size:10px; line-height:1.5; color:var(--ink3); }
+.guide-links a { color:var(--green-dark); text-decoration:underline; text-underline-offset:2px; }
+.guide-links a:hover { color:var(--green-muted); }
 
 /* ── SECTION LABEL ────────────────────────────────────────────────────────── */
 .slabel {
