@@ -116,6 +116,9 @@ body {
   color: #ffffff;
 }
 
+.mobile-menu-toggle,
+.mobile-menu-panel { display: none; }
+
 .offline-pill {
   display: flex;
   align-items: center;
@@ -690,10 +693,25 @@ body {
 
 /* ── RESPONSIVE ───────────────────────────────────────────────────────────── */
 @media (max-width: 720px) {
+  .top-bar { height: 56px; padding: 0 14px; gap: 8px; }
+  .logo { gap: 7px; }
+  .logo-icon { width: 26px; height: 26px; }
+  .wordmark { font-size: 16px; }
+  .wm-com { display: none; }
+  .top-nav, .offline-pill { display: none; }
+  .top-bar .lang-btn { padding: 5px 8px; font-size: 10px; }
+  .mobile-menu-toggle { display:inline-flex; align-items:center; justify-content:center; gap:5px; min-height:36px; padding:0 9px; border:1px solid rgba(255,255,255,0.32); border-radius:var(--r); background:rgba(255,255,255,0.10); color:#fff; font-family:var(--sans); font-size:11px; font-weight:600; cursor:pointer; }
+  .mobile-menu-icon { width:12px; text-align:center; font-size:16px; line-height:1; }
+  .mobile-menu-panel { position:absolute; top:calc(100% + 8px); left:10px; right:10px; z-index:300; padding:8px; border:1px solid var(--border); border-radius:var(--r); background:var(--paper); box-shadow:0 14px 28px rgba(30,77,53,0.18); }
+  .mobile-menu-panel.is-open { display:block; }
+  .mobile-menu-links { display:grid; gap:2px; }
+  .mobile-menu-links a { display:flex; align-items:center; min-height:42px; padding:0 12px; border-radius:calc(var(--r) - 2px); color:var(--ink); text-decoration:none; font-size:14px; font-weight:600; }
+  .mobile-menu-links a:hover { background:var(--green-bg); color:var(--green-dark); }
+  .mobile-menu-links .nav-pro { margin-top:4px; justify-content:center; background:var(--green-dark); color:#fff; }
+  .mobile-menu-links .nav-pro:hover { background:var(--green-mid); color:#fff; }
   .layout { grid-template-columns: 1fr; padding: 16px; }
   .main-col { padding-right: 0; margin-bottom: 24px; }
   .side-col { position: static; }
-  .top-nav, .offline-pill { display: none; }
   .trust-grid { grid-template-columns: 1fr; }
   .tgrid { grid-template-columns: 1fr; }
   .arow { flex-wrap: wrap; }
