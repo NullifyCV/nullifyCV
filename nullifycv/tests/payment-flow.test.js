@@ -76,6 +76,12 @@ test('checkout refuses a mispriced Stripe price',async()=>{
  assert.equal(res.code,503);assert.equal(res.body.error,'price_configuration_mismatch');
 });
 
+test('checkout reports an invalid Stripe key safely without exposing provider details',async()=>{
+ global.fetch=async()=>response({error:{type:'invalid_request_error',code:'api_key_expired',message:'secret provider detail'}},401);
+ const res=mockRes();await createCheckout(request({plan:'single',token:'a'.repeat(64),workflow_id:'123e4567-e89b-42d3-a456-426614174000'}),res);
+ assert.equal(res.code,503);assert.equal(res.body.error,'payment_provider_authentication_failed');
+});
+
 test('old unbound Checkout Session IDs cannot issue new access',async()=>{
  global.fetch=async()=>response(singleSession({metadata:{},line_items:{has_more:false,data:[{quantity:1,price:{id:'price_old_week',currency:'eur',unit_amount:499,recurring:null}}]}}));
  const res=mockRes();await issueLicence(request({session_id:'cs_test_single123',token:'a'.repeat(64),plan:'annual'}),res);

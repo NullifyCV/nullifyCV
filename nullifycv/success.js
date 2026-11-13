@@ -2,6 +2,8 @@
  const sessionId=window.ncvCheckoutSession || new URLSearchParams(location.search).get('session_id');
  const heading=document.querySelector('.success-title')||document.querySelector('h1');
  const status=document.getElementById('plan-expiry'),button=document.getElementById('go-btn');
+ const track=(name,data)=>{if(typeof window.va==='function')window.va('event',{name,...data});};
+ const safeFailure=e=>['use_original_checkout_browser','payment_not_complete','payment_not_paid','payment_reversed','subscription_not_paid','subscription_expired'].includes(e?.message)?e.message:'activation_failed';
  button.href='/';button.textContent='Return to the tool';
  try{
   if(!sessionId)throw new Error('No checkout reference was supplied.');
@@ -22,7 +24,10 @@
   if(heading)heading.textContent='Your access is ready.';
   document.getElementById('activation-message').textContent='Your purchase has been verified and access saved to this browser.';
   button.href='/?activated=1';button.textContent='Continue with your CV →';
+  // Fire only after Stripe verification and browser storage both succeeded.
+  track('purchase_completed',{plan:payload.plan==='single'?'single_file':'annual_batch'});
  }catch(e){
+  track('purchase_activation_failed',{reason:safeFailure(e)});
   if(heading)heading.textContent='Access needs attention';
   document.getElementById('activation-message').textContent='Access has not been saved. Please keep your Stripe receipt.';
   status.textContent=e.name==='QuotaExceededError'?'Payment verified, but browser storage is full. Free space and reopen your Stripe return link, or contact support.':e.message;

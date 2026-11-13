@@ -1,7 +1,7 @@
 'use strict';
 const p=require('../lib/payments');
 module.exports=async(req,res)=>{try{
- p.guard(req,res);p.secret();
+ p.guard(req,res);p.secret();p.stripeSecret();
  const {plan,token,workflow_id}=req.body||{};
  if(!['single','annual'].includes(plan)||! /^[a-f0-9]{64}$/.test(token||'')||! /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(workflow_id||''))throw p.error('invalid_checkout');
  const priceId=p.plans()[plan];if(!priceId)throw p.error('checkout_not_configured',503);

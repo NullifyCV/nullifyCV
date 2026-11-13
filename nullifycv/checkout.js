@@ -8,9 +8,25 @@
  async function fingerprint(file){return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',await file.arrayBuffer())),x=>x.toString(16).padStart(2,'0')).join('');}
  function read(key,fallback){try{return JSON.parse(localStorage.getItem(key)||'null')||fallback;}catch{return fallback;}}
  function notice(message){let e=document.getElementById('checkout-message');if(!e){e=document.createElement('p');e.id='checkout-message';e.setAttribute('role','status');e.style.cssText='padding:12px;color:#214e39;background:#edf5ef;border-radius:8px;';(document.getElementById('upgrade-modal')||document.querySelector('.pro-wrap')||document.body).appendChild(e);}e.textContent=message;}
- async function api(path,body){const r=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const data=await r.json();if(!r.ok)throw Object.assign(new Error(data.error||'Request failed'),{status:r.status});return data;}
+ function track(name,data){if(typeof window.va==='function')window.va('event',{name,...data});}
+ function safeFailure(error){
+  const known=['checkout_not_configured','price_configuration_mismatch','payment_configuration_unavailable','payment_provider_authentication_failed','payment_provider_request_failed','payment_service_unavailable'];
+  return known.includes(error?.message)?error.message:'unexpected_error';
+ }
+ function checkoutMessage(error){
+  if(['checkout_not_configured','price_configuration_mismatch','payment_configuration_unavailable','payment_provider_authentication_failed','payment_provider_request_failed'].includes(error?.message))return 'Checkout is temporarily unavailable. Your CV is still here. Please try again shortly or contact support@nullifycv.com.';
+  if(error?.message==='payment_service_unavailable')return 'Stripe is temporarily unavailable. Your CV is still here. Please try again shortly.';
+  return 'Could not open checkout. Your CV is still here. Please try again.';
+ }
+ async function api(path,body){
+  const r=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  let data=null;try{data=await r.json();}catch{}
+  if(!r.ok)throw Object.assign(new Error(data?.error||'Request failed'),{status:r.status});
+  return data;
+ }
  window.ncvStartCheckout=async function(plan){
   if(busy)return;busy=true;
+  const context={plan:plan==='single'?'single_file':'annual_batch',source:location.pathname,trigger:window.ncvUpgradeIntent?.type||'direct'};
   try{
    const file=typeof currentFile!=='undefined'?currentFile:null;
    if(plan==='single'&&!file){notice('Choose your CV in the tool first, then unlock it.');if(!document.getElementById('drop'))location.href='/?offer=single';return;}
@@ -20,12 +36,16 @@
    const selected=Array.from(document.querySelectorAll('.tcard.on')).map(x=>x.dataset.key);
    // Only one active checkout per browser. Original bytes are deleted on return or next visit after 24 hours.
    await pending('put',{token,workflow_id,file,digest,selected,mode:typeof currentMode!=='undefined'?currentMode:'standard',intent:window.ncvUpgradeIntent||null,created:Date.now()});
+   // Deliberately contains no filename, content, browser token or payment identifier.
+   window._upgradeModalCheckoutClicked=true;
+   track('checkout_started',context);
    notice('Opening secure checkout…');
    const result=await api('/api/create-checkout',{plan,token,workflow_id});
-   window._upgradeModalCheckoutClicked=true;
-   if(window.va)window.va('event',{name:'checkout_click',plan:plan==='single'?'single_file':'pro_annual',source:location.pathname});
+   track('checkout_redirected',context);
+   // Keep the original event name for continuity with existing reports.
+   track('checkout_click',{plan:plan==='single'?'single_file':'pro_annual',source:location.pathname});
    location.assign(result.url);
-  }catch(e){notice(['checkout_not_configured','price_configuration_mismatch','payment_configuration_unavailable'].includes(e.message)?'Checkout is not available yet. Please try again later or contact support@nullifycv.com.':'Could not open checkout. Your CV is still here. Please try again.');}
+  }catch(e){track('checkout_failed',{...context,reason:safeFailure(e),status:String(e?.status||0)});notice(checkoutMessage(e));}
   finally{busy=false;}
  };
  function resetAccess(){
