@@ -8,7 +8,7 @@ ROOT=Path(__file__).resolve().parent
 HOST="https://www.nullifycv.com"
 LOCALES={"x-default":"", "en":"", "en-US":"us.html", "en-GB":"uk.html", "en-CA":"ca.html", "nl-NL":"nl.html", "de-DE":"de.html", "fr-FR":"fr.html", "es-ES":"es.html", "fi-FI":"fi.html", "sv-SE":"se.html", "ko-KR":"kr.html"}
 LOCALE_PAGES=set(LOCALES.values())
-PAGES=["", "about.html", "pro.html", "glossary.html", "case-study.html", "privacy.html", "terms.html", "blog/"]+[x+".html" for x in ["nl","us","de","fr","es","uk","ca","kr","se","fi"]]+["blog/"+p.name for p in sorted((ROOT/"blog").glob("*.html")) if p.name not in ["index.html","blog_index.html","blog_template.html"]]
+PAGES=["", "about.html", "blind-cv.html", "pro.html", "glossary.html", "case-study.html", "privacy.html", "terms.html", "blog/"]+[x+".html" for x in ["nl","us","de","fr","es","uk","ca","kr","se","fi"]]+["blog/"+p.name for p in sorted((ROOT/"blog").glob("*.html")) if p.name not in ["index.html","blog_index.html","blog_template.html"]]
 for path in PAGES:
     f=ROOT/(path+"index.html" if not path or path.endswith("/") else path)
     text=f.read_text()

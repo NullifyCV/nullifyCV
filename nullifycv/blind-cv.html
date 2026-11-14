@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blind CV Generator for Recruiters | NullifyCV</title>
+  <meta name="description" content="Create a blind CV locally in your browser. Remove selected personal details from PDF and DOCX resumes before client submission or blind review.">
+  <meta property="og:title" content="Blind CV Generator for Recruiters | NullifyCV">
+  <meta property="og:description" content="Prepare a blind CV before client submission or blind review. CV files are processed locally in your browser.">
+  <meta property="og:url" content="https://www.nullifycv.com/blind-cv.html">
+  <meta property="og:type" content="website">
+  <link rel="canonical" href="https://www.nullifycv.com/blind-cv.html">
+  <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .blind-wrap { max-width:900px; margin:0 auto; padding:62px 24px 80px; }
+    .blind-hero { text-align:center; max-width:720px; margin:0 auto 54px; }
+    .blind-eyebrow { font-family:var(--mono); font-size:10px; font-weight:700; color:var(--green-muted); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:14px; }
+    .blind-hero h1 { font-size:42px; line-height:1.08; letter-spacing:-1.4px; color:var(--green-dark); margin-bottom:18px; }
+    .blind-hero p { font-size:16px; line-height:1.7; color:var(--ink3); margin:0 auto 26px; }
+    .blind-actions { display:flex; justify-content:center; gap:12px; flex-wrap:wrap; }
+    .blind-primary,.blind-secondary { display:inline-block; border-radius:var(--r); padding:13px 22px; font-size:14px; font-weight:700; text-decoration:none; }
+    .blind-primary { background:var(--green-dark); color:#fff; }.blind-primary:hover { background:var(--green-mid); }
+    .blind-secondary { background:var(--green-bg); border:1px solid var(--green-bg2); color:var(--green-dark); }
+    .blind-section { border-top:1px solid var(--border); padding-top:42px; margin-top:48px; }
+    .blind-section h2 { font-size:25px; line-height:1.2; letter-spacing:-.6px; color:var(--green-dark); margin-bottom:12px; }
+    .blind-lead { font-size:14px; line-height:1.7; color:var(--ink3); max-width:700px; }
+    .blind-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:24px; }
+    .blind-card { background:var(--paper); border:1px solid var(--border); border-radius:var(--rl); padding:20px; }
+    .blind-card h3 { font-size:14px; color:var(--green-dark); margin-bottom:8px; }.blind-card p { font-size:13px; line-height:1.6; color:var(--ink3); }
+    .blind-steps { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:24px; }
+    .blind-step { padding:20px; background:var(--green-bg); border:1px solid var(--green-bg2); border-radius:var(--rl); }
+    .blind-number { font-family:var(--mono); font-size:11px; font-weight:700; color:var(--green-muted); margin-bottom:9px; }.blind-step h3 { font-size:14px; color:var(--green-dark); margin-bottom:6px; }.blind-step p { font-size:13px; line-height:1.55; color:var(--ink3); }
+    .blind-checks { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:22px; }.blind-check { padding:13px 15px; background:var(--paper2); border-radius:var(--r); font-size:13px; color:var(--ink2); }.blind-check strong { color:var(--green-dark); }
+    .blind-note { font-size:12px; line-height:1.65; color:var(--ink3); margin-top:17px; }
+    .blind-cta { background:var(--green-dark); border-radius:var(--rl); padding:42px 28px; margin-top:48px; text-align:center; }.blind-cta h2 { color:#fff; font-size:25px; margin-bottom:9px; }.blind-cta p { color:rgba(255,255,255,.78); font-size:14px; line-height:1.6; margin-bottom:22px; }.blind-cta a { display:inline-block; background:#fff; color:var(--green-dark); border-radius:var(--r); padding:13px 24px; font-size:14px; font-weight:700; text-decoration:none; }
+    @media(max-width:680px) { .blind-wrap { padding-top:40px; }.blind-hero h1 { font-size:31px; }.blind-grid,.blind-steps,.blind-checks { grid-template-columns:1fr; } }
+  </style>
+  <script src="https://js-de.sentry-cdn.com/263c778b9462a7bb5fa848cf4ed54d4a.min.js" crossorigin="anonymous"></script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Blind CV Generator for Recruiters","url":"https://www.nullifycv.com/blind-cv.html","description":"Create a blind CV locally before client submission or blind review."}</script>
+</head>
+<body>
+<header class="top-bar" role="banner">
+  <a href="/" class="logo" aria-label="NullifyCV home">
+    <svg class="logo-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 2L3 7.5v7C3 22.5 8.8 28.5 16 30c7.2-1.5 13-7.5 13-15.5v-7L16 2z" fill="none" stroke="#7aaa8a" stroke-width="1.8"/><rect x="11" y="9" width="10" height="13" rx="1.5" fill="none" stroke="#7aaa8a" stroke-width="1.5"/><path d="M11 9.5l3-3.5h5l2 3.5" fill="none" stroke="#7aaa8a" stroke-width="1.2"/><line x1="13" y1="14" x2="19" y2="14" stroke="#7aaa8a" stroke-width="1.3" stroke-linecap="round"/><line x1="13" y1="16.5" x2="19" y2="16.5" stroke="#7aaa8a" stroke-width="1.3" stroke-linecap="round"/><line x1="13" y1="19" x2="17" y2="19" stroke="#7aaa8a" stroke-width="1.3" stroke-linecap="round"/></svg>
+    <span class="wordmark"><span class="wm-nullify">Nullify</span><span class="wm-cv">CV</span><span class="wm-com">.com</span></span>
+  </a>
+  <nav class="top-nav" aria-label="Main navigation"><a href="/about.html">How it works</a><a href="/blog/">Blog</a><a href="/glossary.html">Glossary</a><a href="https://github.com/NullifyCV/nullifyCV" target="_blank" rel="noopener">GitHub</a><a href="/pro.html" class="nav-pro">Batch access →</a></nav>
+  <div class="lang-switcher" id="lang-switcher"><button class="lang-btn" id="lang-btn" aria-label="Select language" aria-expanded="false">Language</button><div class="lang-dropdown" id="lang-dropdown" role="menu"><a href="/" class="lang-current">English</a><a href="/nl.html">Nederlands</a><a href="/de.html">Deutsch</a><a href="/fr.html">Français</a><a href="/es.html">Español</a><a href="/uk.html">English UK</a><a href="/ca.html">English CA</a><a href="/kr.html">한국어</a><a href="/se.html">Svenska</a><a href="/fi.html">Suomi</a></div></div>
+  <div class="offline-pill"><span class="pulse"></span><span>Processing locally — no uploads</span></div>
+</header>
+<p class="ncv-small" style="max-width:1100px;margin:14px auto;padding:0 24px">CV files are processed locally. Payments, licence checks, analytics and error reporting use online services. <a href="/privacy.html">Privacy</a></p>
+<main class="blind-wrap">
+  <section class="blind-hero"><div class="blind-eyebrow">For recruiters and hiring teams</div><h1>Create a blind CV before client submission.</h1><p>Remove selected personal details from a PDF or DOCX CV before sharing a candidate profile. NullifyCV processes the document in your browser, not on our servers.</p><div class="blind-actions"><a class="blind-primary" href="/">Create a blind CV</a><a class="blind-secondary" href="/pro.html">Batch CV anonymisation</a></div></section>
+  <section class="blind-section"><h2>What is a blind CV?</h2><p class="blind-lead">A blind CV is a version of a candidate's CV with identifying details removed before a client or hiring panel sees it. It can support an initial skills-focused review and keeps direct contact details out of an early client submission.</p><div class="blind-grid"><article class="blind-card"><h3>Client submission</h3><p>Share relevant experience and skills while holding back contact details until the next step is agreed.</p></article><article class="blind-card"><h3>Blind review</h3><p>Remove selected personal details before an internal reviewer assesses a candidate profile.</p></article><article class="blind-card"><h3>Local processing</h3><p>Process supported PDF and DOCX files in your browser. Your CV is not uploaded for redaction.</p></article></div></section>
+  <section class="blind-section"><h2>How to create a blind CV</h2><div class="blind-steps"><article class="blind-step"><div class="blind-number">01</div><h3>Open the tool</h3><p>Drop in a PDF or DOCX CV. Basic redaction is free and needs no account.</p></article><article class="blind-step"><div class="blind-number">02</div><h3>Choose what to redact</h3><p>Use the client-submission or bias-strip mode, then review the detected items before export.</p></article><article class="blind-step"><div class="blind-number">03</div><h3>Check and download</h3><p>Confirm the output yourself before sharing it. Automatic detection is assistance, not a guarantee.</p></article></div></section>
+  <section class="blind-section"><h2>Details to review before sharing</h2><p class="blind-lead">Every recruitment workflow is different. Review the document and choose the details that do not belong in the first version sent to a client.</p><div class="blind-checks"><div class="blind-check"><strong>Contact details:</strong> name, email, phone number, address and profile links.</div><div class="blind-check"><strong>Identity signals:</strong> date of birth, nationality, location and selected pronouns.</div><div class="blind-check"><strong>Background signals:</strong> school names and graduation years when relevant to your process.</div><div class="blind-check"><strong>Document data:</strong> check file metadata and the final file name before you send it.</div></div><p class="blind-note">NullifyCV helps you select and redact details. It does not determine legal compliance or guarantee that every identifier has been found.</p></section>
+  <section class="blind-cta"><h2>Need to prepare more than one CV?</h2><p>Annual batch access is €49/year for one user, with unlimited processing and up to 200 files per batch.</p><a href="/pro.html">See batch CV anonymisation</a></section>
+</main>
+<footer class="foot" role="contentinfo"><span class="foot-brand">nullifycv.com</span><span aria-hidden="true">·</span><a href="/about.html">How it works</a><span aria-hidden="true">·</span><a href="/blog/">Blog</a><span aria-hidden="true">·</span><a href="/glossary.html">Glossary</a><span aria-hidden="true">·</span><a href="/case-study.html">Case study</a><span aria-hidden="true">·</span><a href="https://github.com/NullifyCV/nullifyCV" target="_blank" rel="noopener">GitHub</a><span aria-hidden="true">·</span><a href="/privacy.html">Privacy</a><span aria-hidden="true">·</span><a href="/terms.html">Terms</a><span aria-hidden="true">·</span><small>Local CV processing · Open source · Supports data minimisation · Not legal advice</small></footer>
+<script defer src="/_vercel/insights/script.js"></script>
+<script>(function(){var btn=document.getElementById('lang-btn');var sw=document.getElementById('lang-switcher');if(!btn||!sw)return;btn.addEventListener('click',function(e){e.stopPropagation();var open=sw.classList.toggle('open');btn.setAttribute('aria-expanded',open)});document.addEventListener('click',function(){sw.classList.remove('open');btn.setAttribute('aria-expanded','false')});document.addEventListener('keydown',function(e){if(e.key==='Escape'){sw.classList.remove('open');btn.setAttribute('aria-expanded','false')}})})();</script>
+<script src="/mobile-nav.js" defer></script>
+</body>
+</html>
