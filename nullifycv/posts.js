@@ -68,6 +68,19 @@ const BLOG_POSTS = [
     tags:        ['cv-redaction', 'client-submission', 'gdpr', 'recruiting'],
     featured:    false,
   },
+  {
+    slug:        'blind-cv-checklist',
+    title:       'Blind CV Checklist for Client Submission',
+    description: 'Use this recruiter checklist to remove contact details from a CV before client submission, preserve relevant experience and check the exported PDF.',
+    date:        '2026-11-14',
+    dateLabel:   'November 2026',
+    lang:        'en',
+    langLabel:   'EN',
+    category:    'Recruiting',
+    readTime:    2,
+    tags:        ['cv-redaction', 'client-submission', 'recruiting', 'blind-hiring'],
+    featured:    false,
+  },
 ];
 
 /* ── Helper functions used by blog index and post pages ─────────────────── */
